@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte';
+  import { bindHandlers, injectTiny } from './Utils';
   
   const uuid = (prefix: string): string => {
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
@@ -14,8 +15,6 @@
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
-
-  console.log('initial: ', disabled);
   
   let container: HTMLElement;
   let element: HTMLElement;
@@ -23,73 +22,6 @@
   
   let lastVal = '';
   let disablindCache = disabled;
-
-  console.log('cache: ', disablindCache);
-  
-  const validEvents = [
-    'Activate',
-    'AddUndo',
-    'BeforeAddUndo',
-    'BeforeExecCommand',
-    'BeforeGetContent',
-    'BeforeRenderUI',
-    'BeforeSetContent',
-    'BeforePaste',
-    'Blur',
-    'Change',
-    'ClearUndos',
-    'Click',
-    'ContextMenu',
-    'Copy',
-    'Cut',
-    'Dblclick',
-    'Deactivate',
-    'Dirty',
-    'Drag',
-    'DragDrop',
-    'DragEnd',
-    'DragGesture',
-    'DragOver',
-    'Drop',
-    'ExecCommand',
-    'Focus',
-    'FocusIn',
-    'FocusOut',
-    'GetContent',
-    'Hide',
-    'Init',
-    'KeyDown',
-    'KeyPress',
-    'KeyUp',
-    'LoadContent',
-    'MouseDown',
-    'MouseEnter',
-    'MouseLeave',
-    'MouseMove',
-    'MouseOut',
-    'MouseOver',
-    'MouseUp',
-    'NodeChange',
-    'ObjectResizeStart',
-    'ObjectResized',
-    'ObjectSelected',
-    'Paste',
-    'PostProcess',
-    'PostRender',
-    'PreProcess',
-    'ProgressState',
-    'Redo',
-    'Remove',
-    'Reset',
-    'ResizeEditor',
-    'SaveContent',
-    'SelectionChange',
-    'SetAttrib',
-    'SetContent',
-    'Show',
-    'Submit',
-    'Undo',
-    'VisualAid'];
   
   const dispatch = createEventDispatcher();
   
@@ -98,8 +30,6 @@
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
     }
-    console.log('from cache: ', disablindCache);
-    console.log('set disabled: ', disabled);
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
       editorRef.setMode(disabled ? 'readonly' : 'design');
@@ -112,15 +42,6 @@
     };
     const sink = getSink();
     return sink && sink.tinymce ? sink.tinymce : null;
-  };
-  
-  const injectTiny = (doc, url, cb) => {
-    const script = doc.createElement('script');
-    script.referrerPolicy = 'origin';
-    script.type = 'application/javascript';
-    script.src = url;
-    script.onload = cb;
-    if (doc.head) doc.head.appendChild(script);
   };
   
   const init = () => {
@@ -144,22 +65,12 @@
           });
         });
         // TBD: bind handlers by running dispatcher
-        validEvents.forEach(eventName => {
-          editor.on(eventName, (e: any) => {
-            dispatch(eventName.toLowerCase(), {
-              eventName,
-              event: e,
-              editor
-            });
-          });
-        });
-        // run external setup
+        bindHandlers(editor, dispatch);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);
         }
       },
     };
-    console.log(finalInit);
     element.style.visibility = '';
     getTinymce().init(finalInit);
   };

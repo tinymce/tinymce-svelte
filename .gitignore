@@ -1,0 +1,9 @@
+node_modules
+lib
+.DS_Store
+storybook-static
+.rpt2_cache
+.idea
+.cache
+scratch
+dist
