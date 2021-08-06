@@ -66,7 +66,7 @@ const validEvents= [
 
 const bindHandlers = (editor, dispatch) => {
   validEvents.forEach(eventName => {
-    editor.on(eventName, (e: any) => {
+    editor.on(eventName, (e) => {
       dispatch(eventName.toLowerCase(), {
         eventName,
         event: e,
