@@ -3,7 +3,7 @@
   import Editor from '../main/component/Editor.svelte';
   import { Meta, Story } from '@storybook/addon-svelte-csf';
 
-  const apiKey = '';
+  const apiKey = 'b1g4d59rwwqxx1vj7mci23rjj8ubgb46i4xsio6ieig6fkps';
   const content = `
     <h2 style="text-align: center;">
     TinyMCE provides a <span style="text-decoration: underline;">full-featured</span> rich text editing experience, and a featherweight download.
@@ -45,7 +45,7 @@
 <Story name="Input binding">
   <div>
     <Editor {apiKey} bind:value={value} />
-    <textarea bind:value={value}></textarea>
+    <textarea style="width:100%;height:200px" bind:value={value}></textarea>
   </div>
 </Story>
 
@@ -54,7 +54,7 @@
     <Editor {apiKey} bind:value={value} bind:text={text} />
     <div>{text}</div>
     <div>{@html value}</div>
-    <textarea bind:value={text}></textarea>
+    <textarea style="width:100%;height:200px" bind:value={text}></textarea>
   </div>
 </Story>
 

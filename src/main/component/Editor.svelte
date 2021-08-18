@@ -1,4 +1,4 @@
-<script lang="ts" context="module">  
+<script lang="ts" context="module">
   const uuid = (prefix: string): string => {
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
   };
@@ -44,10 +44,16 @@
 </script>
 
 <script lang="ts">
+  const x: any = "false";
+  const y: any = "something";
+  if (x == y) {
+    console.log('something');
+  }
+  
   import { onMount, createEventDispatcher } from 'svelte';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
-  export let inline: boolean = false;
+  export let inline: boolean | undefined = undefined;
   export let disabled: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let channel: string = '5';
@@ -90,11 +96,11 @@
     const finalInit = {
       ...conf,
       target: element,
-      inline: inline,
+      inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       readonly: disabled,
       setup: (editor: any) => {
         editorRef = editor;
-        editor.on('init', (e: Event) => {
+        editor.on('init', () => {
           editor.setContent(value);
           // bind model events
           editor.on(modelEvents, () => {
@@ -105,7 +111,6 @@
             }
           });
         });
-        // TBD: bind handlers by running dispatcher
         bindHandlers(editor, dispatch);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);

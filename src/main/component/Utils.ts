@@ -1,5 +1,5 @@
 
-const validEvents= [
+const validEvents = [
   'Activate',
   'AddUndo',
   'BeforeAddUndo',
@@ -62,10 +62,10 @@ const validEvents= [
   'Show',
   'Submit',
   'Undo',
-  'VisualAid'];
+  'VisualAid' ];
 
 const bindHandlers = (editor, dispatch) => {
-  validEvents.forEach(eventName => {
+  validEvents.forEach( (eventName) => {
     editor.on(eventName, (e) => {
       dispatch(eventName.toLowerCase(), {
         eventName,
@@ -74,18 +74,20 @@ const bindHandlers = (editor, dispatch) => {
       });
     });
   });
-}
- 
+};
+
 const injectTiny = (doc, url, cb) => {
   const script = doc.createElement('script');
   script.referrerPolicy = 'origin';
   script.type = 'application/javascript';
   script.src = url;
   script.onload = cb;
-  if (doc.head) doc.head.appendChild(script);
+  if (doc.head) {
+    doc.head.appendChild(script);
+  }
 };
 
 export {
   bindHandlers,
   injectTiny
-}
+};
