@@ -10,7 +10,7 @@
   "svelte": "src/main/index.ts",
   "scripts": {
     "build": "rollup -c",
-    "lint": "eslint src/main/**/*.{js,ts,svelte}",
+    "lint": "eslint src/main/**/*.{ts,svelte}",
     "dev": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
