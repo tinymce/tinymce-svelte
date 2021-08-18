@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Linting
+- Beehive flow
 ### Fixed
 - Ignoring inline property from `conf` attribute
 
-## 0.0.1
+## 0.1.0
 ### Added
 - Build this thing
