@@ -31,7 +31,7 @@ node("primary") {
     def status = beehiveFlowStatus();
     if (status.branchState == 'releaseReady' && status.isLatest) {
       sshagent (credentials: ['jenkins2-github']) {
-        sh 'yarn storybook-to-ghpages'
+        sh 'yarn deploy-storybook'
       }
     } else {
       echo "Skipping as is not latest release"
