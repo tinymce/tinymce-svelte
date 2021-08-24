@@ -44,12 +44,6 @@
 </script>
 
 <script lang="ts">
-  const x: any = "false";
-  const y: any = "something";
-  if (x == y) {
-    console.log('something');
-  }
-  
   import { onMount, createEventDispatcher } from 'svelte';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values

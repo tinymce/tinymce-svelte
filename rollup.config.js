@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
+import execute from "rollup-plugin-execute";
 import pkg from './package.json';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -37,8 +37,19 @@ export default {
 	// input: 'src/main.ts',
   input: 'src/main/index.ts',
   output: [
-    { file: pkg.module, format: 'es' },
-    { file: pkg.main, format: 'umd', name},
+    { file: pkg.module, format: 'es', sourcemap: true },
+    { 
+      file: pkg.main,
+      format: 'umd',
+      name,
+      sourcemap: true,
+      plugins: [
+        execute([
+          'tsc --outDir ./dist --declaration',
+          'node scripts/preprocess.js'
+        ])
+      ]
+    },
     { file: pkg.main.replace('.js','.min.js'), format: 'iife', name, plugins: [terser()] }
   ],
 	// output: {
@@ -51,24 +62,22 @@ export default {
 		svelte({
 			preprocess: sveltePreprocess(),
 		}),
-		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
 		// some cases you'll need additional configuration -
 		// consult the documentation for details:
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
-		resolve({
-			browser: true,
-			dedupe: ['svelte']
-		}),
+		// resolve({
+		// 	browser: true,
+		// 	dedupe: ['svelte']
+		// }),
+    resolve(),
 		commonjs(),
+		typescript({
+			sourceMap: !production,
+			inlineSources: !production
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated

@@ -4,6 +4,20 @@
 
 This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinymce) to make it easier to use in a Svelte application.
 
+## Quick start
+
+### Create a Svelte App from a template
+
+```
+npx degit sveltejs/template my-tiny-app
+```
+
+### Add the Editor component
+
+```
+npm install @tinymce/tinymce-svelte
+```
+
 ## TinyMCE Svelte technical reference
 
 ### Configuring the TinyMCE svelte integration
