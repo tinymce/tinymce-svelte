@@ -18,7 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "deploy-storybook": "yarn storybook-to-ghpages --source-branch=main"
+    "deploy-storybook": "yarn storybook-to-ghpages --source-branch=main",
+    "prepublishOnly": "yarn run build"
   },
   "keywords": [
     "tinymce",
