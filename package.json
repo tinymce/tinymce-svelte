@@ -2,6 +2,10 @@
   "name": "@tinymce/tinymce-svelte",
   "version": "0.1.0",
   "description": "TinyMCE Svelte Component",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "url": "https://github.com/tinymce/tinymce-svelte"
   },
