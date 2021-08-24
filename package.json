@@ -1,7 +1,7 @@
 {
-  "name": "tinymce-svelte",
-  "version": "0.1.2-rc",
-  "description": "TinyMCE wrapper for Svelte",
+  "name": "@tinymce/tinymce-svelte",
+  "version": "0.1.0",
+  "description": "TinyMCE Svelte Component",
   "repository": {
     "url": "https://github.com/tinymce/tinymce-svelte"
   },
