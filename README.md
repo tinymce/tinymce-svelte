@@ -10,12 +10,30 @@ This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinym
 
 ```
 npx degit sveltejs/template my-tiny-app
+cd my-tiny-app
 ```
 
 ### Add the Editor component
 
+Installl the editor component in your project
+
 ```
 npm install @tinymce/tinymce-svelte
+```
+
+## Import the TinyMCE component
+
+Import the TinyMCE component inside the script tag of your Svelte app
+
+```
+<script lang="ts">
+import Editor from '@tinymce/tinymce-svelte';
+</script>
+<main>
+  <h1> Hello Tiny</h1>
+  <Editor />
+</main>
+
 ```
 
 ## TinyMCE Svelte technical reference
