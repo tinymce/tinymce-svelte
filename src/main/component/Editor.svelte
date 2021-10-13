@@ -44,7 +44,7 @@
 </script>
 
 <script lang="ts">
-  import { onMount, createEventDispatcher } from 'svelte';
+  import { onMount, createEventDispatcher, onDestroy } from 'svelte';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
@@ -125,6 +125,12 @@
       });
     }
   });
+
+onDestroy(() => {
+  if (editorRef) {
+    getTinymce()?.remove(editorRef);
+  }
+});
   
   </script>
   <div bind:this={container}>
