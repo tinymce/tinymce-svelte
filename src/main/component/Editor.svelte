@@ -56,6 +56,7 @@
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
+  export let cssClass: string = 'tinymce-wrapper';
   
   let container: HTMLElement;
   let element: HTMLElement;
@@ -133,7 +134,7 @@ onDestroy(() => {
 });
   
   </script>
-  <div bind:this={container}>
+  <div bind:this={container} class={cssClass}>
   {#if inline}
     <div id={id} bind:this={element}></div>
   {:else}

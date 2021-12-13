@@ -54,6 +54,7 @@ The editor component accepts the following properties:
   modelEvents="input change undo redo"
   value="value"
   text="readonly-text-output"
+  cssClass="tinymce-wrapper"
 />
 ```
 
@@ -82,6 +83,23 @@ Type: string
 ```
 <Editor
   channel="5-dev"
+/>
+```
+
+#### CssClass
+
+Specifies the name of the class or classes to use for the `div` wrapping the editor.
+
+Default value: 'tinymce-wrapper'
+Type: string
+
+##### Example using cssClass
+```
+<script>
+let editorCss = 'active editor';
+</script>
+<Editor
+  cssClass={editorCss}
 />
 ```
 
