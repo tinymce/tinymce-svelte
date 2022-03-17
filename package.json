@@ -1,6 +1,6 @@
 {
   "name": "@tinymce/tinymce-svelte",
-  "version": "1.0.0",
+  "version": "1.0.0-rc",
   "description": "TinyMCE Svelte Component",
   "private": false,
   "publishConfig": {
@@ -31,7 +31,7 @@
     "component"
   ],
   "author": "Tiny",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "files": [
     "src",
     "dist",
