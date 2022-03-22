@@ -50,7 +50,7 @@
   export let inline: boolean | undefined = undefined;
   export let disabled: boolean = false;
   export let apiKey: string = 'no-api-key';
-  export let channel: string = '5';
+  export let channel: string = '6';
   export let scriptSrc: string = undefined;
   export let conf: any = {};
   export let modelEvents: string = 'change input undo redo';
@@ -74,7 +74,11 @@
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      editorRef.setMode(disabled ? 'readonly' : 'design');
+      if (typeof editorRef.mode?.set === 'function') {
+        editorRef.mode.set(disabled ? 'readonly' : 'design');
+      } else {
+        editorRef.setMode(disabled ? 'readonly' : 'design');
+      }
     }
   }
   
