@@ -29,7 +29,7 @@
 
 <Story name="Inline">
   <div style="padding-top:100px;">
-    <Editor {apiKey} inline=true value={content} />
+    <Editor {apiKey} inline={true} value={content} />
   </div>
 </Story>
 
