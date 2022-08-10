@@ -19,7 +19,7 @@
     "dev": "rollup -c -w",
     "validate": "svelte-check",
     "lint": "eslint src/main/**/*.{ts,svelte}",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo 'No tests hooked up yet'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "yarn storybook-to-ghpages --source-branch=main",
