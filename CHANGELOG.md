@@ -10,16 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated dependencies
 - Updated CI library to latest
 
-## 1.0.0
+## 1.0.0 - 2022-04-08
 ### Changed
 - License: Code is provided under MIT License
 - Default cloud channel value to '6'
 
-## 0.1.2
+## 0.1.2 - 2021-12-13
 ### Added
 - `cssClass` property for wrapping div
 
-## 0.1.1
+## 0.1.1 - 2021-10-13
 ### Added
 - onDestroy cleanup
 - Linting
@@ -27,6 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Ignoring inline property from `conf` attribute
 
-## 0.1.0
+## 0.1.0 - 2021-08-18
 ### Added
 - Build this thing
