@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Storybook for inline mode corrected
 - Updated dependencies
+- Updated CI library to latest
 
 ## 1.0.0
 ### Changed
