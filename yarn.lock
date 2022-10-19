@@ -1100,6 +1100,19 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@deno/shim-deno-test@^0.3.2":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno-test/-/shim-deno-test-0.3.3.tgz#2dd014a2649507477f904d0172dd88341354086d"
+  integrity sha512-Ge0Tnl7zZY0VvEfgsyLhjid8DzI1d0La0dgm+3m0/A8gZXgp5xwlyIyue5e4SCUuVB/3AH/0lun9LcJhhTwmbg==
+
+"@deno/shim-deno@~0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@deno/shim-deno/-/shim-deno-0.4.3.tgz#3bb6a4e3749133f98e8373ea2e79efaa43fb182a"
+  integrity sha512-m5iXsq3Nvv1aJ1xwUQGnXXOztZ5UUF9dZje3l6EbX41zE5+MioK1NN+2+C3nlWWs9PvSFam4EbZVG3JUbLCeDg==
+  dependencies:
+    "@deno/shim-deno-test" "^0.3.2"
+    which "^2.0.2"
+
 "@discoveryjs/json-ext@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
@@ -2183,21 +2196,22 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@tinymce/beehive-flow@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@tinymce/beehive-flow/-/beehive-flow-0.17.0.tgz#a86972a60eafe30d7b3874e690d812d1ced93cf9"
-  integrity sha512-bXt2qghT56bCkYywXuYl+bKhLznTo3bgJvFVsSHtFK/fgivwhByry4tGQPs65+0QydImRIcwfGKVqXvYJ7aHZA==
+"@tinymce/beehive-flow@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@tinymce/beehive-flow/-/beehive-flow-0.19.0.tgz#177817a107dfb8683ed6cc908bb4b8a28a30af8a"
+  integrity sha512-lHo4o+3uHXER0hO/Q08iJsrxQa1lyPmfEhK8Rqh3K+nG17YSK/PFwA516Gp8Q/9oloKObsAj0lbqf+JDiYk2mw==
   dependencies:
     cross-spawn-promise "^0.10.2"
-    fp-ts "^2.9.5"
-    io-ts "^2.2.14"
-    luxon "^1.26.0"
+    fp-ts "^2.12.3"
+    io-ts "^2.2.18"
+    keep-a-changelog "^2.1.0"
+    luxon "^3.0.4"
     properties-reader "^2.2.0"
-    read-pkg "^5.2.0"
-    simple-git "^2.35.1"
+    simple-git "^3.14.0"
     tmp "^0.2.1"
     tslib "^2.1.0"
-    yargs "^16.2.0"
+    yargs "^17.6.0"
+    yesno "^0.4.0"
 
 "@tinymce/eslint-plugin@^1.9.2":
   version "1.9.3"
@@ -3812,13 +3826,13 @@ cliui@^6.0.0:
     strip-ansi "^6.0.0"
     wrap-ansi "^6.2.0"
 
-cliui@^7.0.2:
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/cliui/-/cliui-7.0.4.tgz#a0265ee655476fc807aea9df3df8df7783808b4f"
-  integrity sha512-OcRE68cOsVMXp1Yvonl/fzkQOyjLSu/8bhPDfQt0e0/Eb283TKP20Fs2MqoPsr9SwA595rRCA+QMzYc9nBP+JQ==
+cliui@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/cliui/-/cliui-8.0.1.tgz#0c04b075db02cbfe60dc8e6cf2f5486b1a3608aa"
+  integrity sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==
   dependencies:
     string-width "^4.2.0"
-    strip-ansi "^6.0.0"
+    strip-ansi "^6.0.1"
     wrap-ansi "^7.0.0"
 
 clone-deep@^4.0.1:
@@ -4220,7 +4234,7 @@ debug@^3.0.0, debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -5319,10 +5333,10 @@ forwarded@0.2.0:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
   integrity sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==
 
-fp-ts@^2.9.5:
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.12.2.tgz#a191db2dbbb04f48a0e75050b94f57cc876c7b40"
-  integrity sha512-v8J7ud+nTkP5Zz17GhpCsY19wiRbB9miuj61nBcCJyDpu52zs9Z4O7OLDfYoKFQMJ9EsSZA7W1vRgC1d3jy5qw==
+fp-ts@^2.12.3:
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.13.1.tgz#1bf2b24136cca154846af16752dc29e8fa506f2a"
+  integrity sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -6008,10 +6022,10 @@ interpret@^2.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
   integrity sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
 
-io-ts@^2.2.14:
-  version "2.2.17"
-  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.17.tgz#19531c9d49abcebc935d85d282e1db95adb01901"
-  integrity sha512-RkQY06h6rRyADVEI46OCAUYTP2p18Vdtz9Movi19Mmj7SJ1NhN/yGyW7CxlcBVxh95WKg2YSbTmcUPqqeLuhXw==
+io-ts@^2.2.18:
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.19.tgz#4ba5e120472a0a07ff693fdb3d7075ea1c1b77c3"
+  integrity sha512-ED0GQwvKRr5C2jqOOJCkuJW2clnbzqFexQ8V7Qsb+VB36S1Mk/OKH7k0FjSe4mjKy9qBRA3OqgVGyFMUEKIubw==
 
 ip@^2.0.0:
   version "2.0.0"
@@ -6609,6 +6623,13 @@ junk@^3.1.0:
   resolved "https://registry.yarnpkg.com/junk/-/junk-3.1.0.tgz#31499098d902b7e98c5d9b9c80f43457a88abfa1"
   integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
 
+keep-a-changelog@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/keep-a-changelog/-/keep-a-changelog-2.1.0.tgz#abedb23407eb6cee3f586e705de457a2b73f3b46"
+  integrity sha512-Svnmt3UTW0U8RdAi24jy2OuU03wEYZkD7vrJuK9u5gIYk6as/BvbSDK0oFtnZLC8xDludDYDsomq7tetEUR0Ow==
+  dependencies:
+    "@deno/shim-deno" "~0.4.3"
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -6820,10 +6841,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-luxon@^1.26.0:
-  version "1.28.0"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.28.0.tgz#e7f96daad3938c06a62de0fb027115d251251fbf"
-  integrity sha512-TfTiyvZhwBYM/7QdAVDh+7dBTBA29v4ik0Ce9zda3Mnf8on1S5KJI8P2jKFZ8+5C0jhmr0KwJEO/Wdpm0VeWJQ==
+luxon@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-3.0.4.tgz#d179e4e9f05e092241e7044f64aaa54796b03929"
+  integrity sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw==
 
 magic-string@^0.25.7:
   version "0.25.9"
@@ -8995,14 +9016,14 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
-simple-git@^2.35.1:
-  version "2.48.0"
-  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-2.48.0.tgz#87c262dba8f84d7b96bb3a713e9e34701c1f6e3b"
-  integrity sha512-z4qtrRuaAFJS4PUd0g+xy7aN4y+RvEt/QTJpR184lhJguBA1S/LsVlvE/CM95RsYMOFJG3NGGDjqFCzKU19S/A==
+simple-git@^3.14.0:
+  version "3.14.1"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-3.14.1.tgz#68018a5f168f8a568862e30b692004b37c3b5ced"
+  integrity sha512-1ThF4PamK9wBORVGMK9HK5si4zoGS2GpRO7tkAFObA4FZv6dKaCVHLQT+8zlgiBm6K2h+wEU9yOaFCu/SR3OyA==
   dependencies:
     "@kwsites/file-exists" "^1.1.1"
     "@kwsites/promise-deferred" "^1.1.1"
-    debug "^4.3.2"
+    debug "^4.3.4"
 
 sisteransi@^1.0.5:
   version "1.0.5"
@@ -10328,7 +10349,7 @@ which@^1.2.9:
   dependencies:
     isexe "^2.0.0"
 
-which@^2.0.1:
+which@^2.0.1, which@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/which/-/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
@@ -10473,10 +10494,10 @@ yargs-parser@^18.1.2:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^20.2.2:
-  version "20.2.9"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.9.tgz#2eb7dc3b0289718fc295f362753845c41a0c94ee"
-  integrity sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==
+yargs-parser@^21.0.0:
+  version "21.1.1"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
+  integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
 yargs@^15.0.0:
   version "15.4.1"
@@ -10495,18 +10516,23 @@ yargs@^15.0.0:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.2.0.tgz#1c82bf0f6b6a66eafce7ef30e376f49a12477f66"
-  integrity sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
+yargs@^17.6.0:
+  version "17.6.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-17.6.0.tgz#e134900fc1f218bc230192bdec06a0a5f973e46c"
+  integrity sha512-8H/wTDqlSwoSnScvV2N/JHfLWOKuh5MVla9hqLjK3nsfyy6Y4kDSYSvkU5YCUEPOSnRXfIyx3Sq+B/IWudTo4g==
   dependencies:
-    cliui "^7.0.2"
+    cliui "^8.0.1"
     escalade "^3.1.1"
     get-caller-file "^2.0.5"
     require-directory "^2.1.1"
-    string-width "^4.2.0"
+    string-width "^4.2.3"
     y18n "^5.0.5"
-    yargs-parser "^20.2.2"
+    yargs-parser "^21.0.0"
+
+yesno@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/yesno/-/yesno-0.4.0.tgz#5d674f14d339f0bd4b0edc47f899612c74fcd895"
+  integrity sha512-tdBxmHvbXPBKYIg81bMCB7bVeDmHkRzk5rVJyYYXurwKkHq/MCd8rz4HSJUP7hW0H2NlXiq8IFiWvYKEHhlotA==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
