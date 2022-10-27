@@ -62,7 +62,7 @@
   let element: HTMLElement;
   let editorRef: any;
   
-  let lastVal = '';
+  let lastVal = value;
   let disablindCache = disabled;
   
   const dispatch = createEventDispatcher();
