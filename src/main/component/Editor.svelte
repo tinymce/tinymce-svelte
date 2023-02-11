@@ -62,13 +62,13 @@
   let element: HTMLElement;
   let editorRef: any;
   
-  let lastVal = value;
+  let lastVal : { [key:string] : string} = {};
   let disablindCache = disabled;
   
   const dispatch = createEventDispatcher();
   
   $: {
-    if (editorRef && lastVal !== value) {
+    if (editorRef && (!lastVal[id] || lastVal[id] !== value)) {
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
     }
@@ -103,9 +103,9 @@
           editor.setContent(value);
           // bind model events
           editor.on(modelEvents, () => {
-            lastVal = editor.getContent();
-            if (lastVal !== value) {
-              value = lastVal;
+            lastVal[id] = editor.getContent();
+            if (lastVal[id] !== value) {
+              value = lastVal[id];
               text = editor.getContent({format: 'text'});
             }
           });
