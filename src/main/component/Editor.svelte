@@ -131,17 +131,17 @@
     }
   });
 
-onDestroy(() => {
-  if (editorRef) {
-    getTinymce()?.remove(editorRef);
-  }
-});
+  onDestroy(() => {
+    if (editorRef) {
+      getTinymce()?.remove(editorRef);
+    }
+  });
   
-  </script>
-  <div bind:this={container} class={cssClass}>
-  {#if inline}
-    <div id={id} bind:this={element}></div>
-  {:else}
-    <textarea id={id} bind:this={element} style="visibility:hidden"></textarea>
-  {/if}
-  </div>
+</script>
+<div bind:this={container} class={cssClass}>
+{#if inline}
+  <div id={id} bind:this={element}></div>
+{:else}
+  <textarea id={id} bind:this={element} style="visibility:hidden"></textarea>
+{/if}
+</div>
