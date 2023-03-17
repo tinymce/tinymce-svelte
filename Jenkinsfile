@@ -2,6 +2,12 @@
 @Library('waluigi@release/7') _
 
 beehiveFlowBuild(
+  container: [
+    tag: '18',
+    resourceRequestMemory: '4Gi',
+    resourceLimitCpu: '4',
+    resourceLimitMemory: '4Gi'
+  ],
   customSteps: {
     stage("update storybook") {
       def status = beehiveFlowStatus()
