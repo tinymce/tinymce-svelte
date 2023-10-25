@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   "core": {
     "builder": "webpack5"
@@ -13,5 +15,9 @@ module.exports = {
   ],
   "svelteOptions": {
     "preprocess": require("svelte-preprocess")()
+  },
+  'webpackFinal': (config) => {
+    config.resolve.alias.svelte = path.resolve('node_modules', 'svelte');
+    return config;
   }
 }
