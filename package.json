@@ -59,7 +59,7 @@
     "@typescript-eslint/parser": "^4.29.2",
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
-    "eslint-plugin-svelte3": "^3.2.0",
+    "eslint-plugin-svelte": "^2.34.0",
     "rollup": "^2.56.2",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
