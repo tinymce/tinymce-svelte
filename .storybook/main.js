@@ -17,7 +17,7 @@ module.exports = {
     "preprocess": require("svelte-preprocess")()
   },
   'webpackFinal': (config) => {
-    config.resolve.alias.svelte = path.resolve('node_modules', 'svelte');
+    config.resolve.alias.svelte = path.resolve('node_modules', 'svelte/src/runtime');
     return config;
   }
 }
