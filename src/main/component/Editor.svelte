@@ -1,16 +1,30 @@
 <script lang="ts" context="module">
+  declare let global: { tinymce: EnchantedTinyMCEEditor }
+  declare let window: Window & { tinymce: EnchantedTinyMCEEditor }
+
+  type EnchantedTinyMCEEditor = TinyMCEEditor & { 
+    setMode?: (mode: string) => void,
+    init?: (input: unknown) => void,
+    remove?: (input: unknown) => void
+  }
+
   const uuid = (prefix: string): string => {
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
   };
 
   const createScriptLoader = () => {
-    let state = {
+    let state: {
+      listeners: Array<() => void>,
+      scriptId: string,
+      scriptLoaded: boolean,
+      injected: boolean
+    } = {
       listeners: [],
       scriptId: uuid('tiny-script'),
       scriptLoaded: false,
       injected: false
     };
- 
+
     const injectScript = (scriptId: string, doc: Document, url: string, cb: () => void) => {
       state.injected = true;
       const script = doc.createElement('script');
@@ -44,7 +58,8 @@
 </script>
 
 <script lang="ts">
-  import { onMount, createEventDispatcher, onDestroy } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import type { Editor as TinyMCEEditor } from 'tinymce';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
@@ -52,7 +67,7 @@
   export let apiKey: string = 'no-api-key';
   export let channel: string = '6';
   export let scriptSrc: string = undefined;
-  export let conf: any = {};
+  export let conf: Record<string, unknown> = {};
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
@@ -60,8 +75,7 @@
   
   let container: HTMLElement;
   let element: HTMLElement;
-  let editorRef: any;
-  
+  let editorRef: EnchantedTinyMCEEditor | null;
   let lastVal = value;
   let disablindCache = disabled;
   
@@ -82,8 +96,8 @@
     }
   }
   
-  const getTinymce = () => {
-    const getSink = () => {
+  const getTinymce = (): EnchantedTinyMCEEditor | null => {
+    const getSink = (): { tinymce: EnchantedTinyMCEEditor } => {
       return typeof window !== 'undefined' ? window : global;
     };
     const sink = getSink();
@@ -97,7 +111,7 @@
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       readonly: disabled,
-      setup: (editor: any) => {
+      setup: (editor: EnchantedTinyMCEEditor) => {
         editorRef = editor;
         editor.on('init', () => {
           editor.setContent(value);

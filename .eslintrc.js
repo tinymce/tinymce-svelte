@@ -1,6 +1,5 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  plugins: ['svelte3', '@typescript-eslint'],
+
   env: {
     browser: true,
     node: true
@@ -8,11 +7,13 @@ module.exports = {
   overrides: [
     {
       files: ['*.svelte'],
-      processor: 'svelte3/svelte3',
+      parser: 'svelte-eslint-parser',
       extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:@typescript-eslint/recommended-requiring-type-checking'],
       parserOptions: {
-        project: 'tsconfig.json',
-        sourceType: 'module'
+        project: './tsconfig.json',
+        sourceType: 'module',
+        parser: '@typescript-eslint/parser',
+        extraFileExtensions: ['.svelte']
       },
       rules: {
         "eqeqeq": "error"
@@ -26,12 +27,10 @@ module.exports = {
         sourceType: "module"
       },
       rules: {
-        "@tinymce/prefer-fun": "off"
+        "@tinymce/prefer-fun": "off",
+        "@typescript-eslint/no-duplicate-imports": "off",
+        "@typescript-eslint/no-parameter-properties": "off"
       }
     }
-  ],
-  settings: {
-    'svelte3/typescript': () => require('typescript'),
-    'svelte3/typescript': true
-  }
+  ]
 }
