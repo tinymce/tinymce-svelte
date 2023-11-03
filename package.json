@@ -7,7 +7,7 @@
     "access": "public"
   },
   "repository": {
-    "url": "https://github.com/tinymce/tinymce-svelte"
+    "url": "git+https://github.com/tinymce/tinymce-svelte.git"
   },
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
