@@ -1,12 +1,6 @@
 <script lang="ts" context="module">
-  declare let global: { tinymce: EnchantedTinyMCEEditor }
-  declare let window: Window & { tinymce: EnchantedTinyMCEEditor }
-
-  type EnchantedTinyMCEEditor = TinyMCEEditor & { 
-    setMode?: (mode: string) => void,
-    init?: (input: unknown) => void,
-    remove?: (input: unknown) => void
-  }
+  declare let global: { tinymce: TinyMCE }
+  declare let window: Window & { tinymce: TinyMCE }
 
   const uuid = (prefix: string): string => {
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
@@ -59,7 +53,7 @@
 
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-  import type { Editor as TinyMCEEditor } from 'tinymce';
+  import type { RawEditorOptions, TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
@@ -67,7 +61,7 @@
   export let apiKey: string = 'no-api-key';
   export let channel: string = '6';
   export let scriptSrc: string = undefined;
-  export let conf: Record<string, unknown> = {};
+  export let conf: RawEditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
@@ -75,7 +69,7 @@
   
   let container: HTMLElement;
   let element: HTMLElement;
-  let editorRef: EnchantedTinyMCEEditor | null;
+  let editorRef: TinyMCEEditor | null;
   let lastVal = value;
   let disablindCache = disabled;
   
@@ -91,13 +85,16 @@
       if (typeof editorRef.mode?.set === 'function') {
         editorRef.mode.set(disabled ? 'readonly' : 'design');
       } else {
-        editorRef.setMode(disabled ? 'readonly' : 'design');
+        interface TinyMCEEditor4 extends TinyMCEEditor {
+          setMode: (input: string) => void
+        }
+        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
       }
     }
   }
   
-  const getTinymce = (): EnchantedTinyMCEEditor | null => {
-    const getSink = (): { tinymce: EnchantedTinyMCEEditor } => {
+  const getTinymce = (): TinyMCE | null => {
+    const getSink = (): { tinymce: TinyMCE } => {
       return typeof window !== 'undefined' ? window : global;
     };
     const sink = getSink();
@@ -106,12 +103,12 @@
   
   const init = () => {
     //
-    const finalInit = {
+    const finalInit: RawEditorOptions = {
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       readonly: disabled,
-      setup: (editor: EnchantedTinyMCEEditor) => {
+      setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
         editor.on('init', () => {
           editor.setContent(value);
@@ -131,7 +128,7 @@
       },
     };
     element.style.visibility = '';
-    getTinymce().init(finalInit);
+    void getTinymce().init(finalInit);
   };
   
   onMount(() => {
