@@ -2,7 +2,8 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "sourceMap": true,
-    "types": ["svelte"]
+    "types": ["svelte"],
+    "ignoreDeprecations": "5.0"
   },
 
   "include": ["src/**/*"],

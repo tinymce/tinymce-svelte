@@ -1,16 +1,24 @@
 <script lang="ts" context="module">
+  declare let global: { tinymce: TinyMCE }
+  declare let window: Window & { tinymce: TinyMCE }
+
   const uuid = (prefix: string): string => {
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
   };
 
   const createScriptLoader = () => {
-    let state = {
+    let state: {
+      listeners: Array<() => void>,
+      scriptId: string,
+      scriptLoaded: boolean,
+      injected: boolean
+    } = {
       listeners: [],
       scriptId: uuid('tiny-script'),
       scriptLoaded: false,
       injected: false
     };
- 
+
     const injectScript = (scriptId: string, doc: Document, url: string, cb: () => void) => {
       state.injected = true;
       const script = doc.createElement('script');
@@ -44,7 +52,8 @@
 </script>
 
 <script lang="ts">
-  import { onMount, createEventDispatcher, onDestroy } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import type { RawEditorOptions, TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
@@ -52,7 +61,7 @@
   export let apiKey: string = 'no-api-key';
   export let channel: string = '6';
   export let scriptSrc: string = undefined;
-  export let conf: any = {};
+  export let conf: RawEditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
@@ -60,8 +69,7 @@
   
   let container: HTMLElement;
   let element: HTMLElement;
-  let editorRef: any;
-  
+  let editorRef: TinyMCEEditor | null;
   let lastVal = value;
   let disablindCache = disabled;
   
@@ -77,13 +85,16 @@
       if (typeof editorRef.mode?.set === 'function') {
         editorRef.mode.set(disabled ? 'readonly' : 'design');
       } else {
-        editorRef.setMode(disabled ? 'readonly' : 'design');
+        interface TinyMCEEditor4 extends TinyMCEEditor {
+          setMode: (input: string) => void
+        }
+        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
       }
     }
   }
   
-  const getTinymce = () => {
-    const getSink = () => {
+  const getTinymce = (): TinyMCE | null => {
+    const getSink = (): { tinymce: TinyMCE } => {
       return typeof window !== 'undefined' ? window : global;
     };
     const sink = getSink();
@@ -92,12 +103,12 @@
   
   const init = () => {
     //
-    const finalInit = {
+    const finalInit: RawEditorOptions = {
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       readonly: disabled,
-      setup: (editor: any) => {
+      setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
         editor.on('init', () => {
           editor.setContent(value);
@@ -117,7 +128,7 @@
       },
     };
     element.style.visibility = '';
-    getTinymce().init(finalInit);
+    void getTinymce().init(finalInit);
   };
   
   onMount(() => {
