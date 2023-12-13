@@ -53,7 +53,9 @@
 
 <script lang="ts">
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-  import type { RawEditorOptions, TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
+  import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
+  type EditorOptions = Parameters<TinyMCE['init']>[0];
+
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
@@ -61,7 +63,7 @@
   export let apiKey: string = 'no-api-key';
   export let channel: string = '6';
   export let scriptSrc: string = undefined;
-  export let conf: RawEditorOptions = {};
+  export let conf: EditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
   export let text: string = '';
@@ -103,7 +105,7 @@
   
   const init = () => {
     //
-    const finalInit: RawEditorOptions = {
+    const finalInit: EditorOptions = {
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
