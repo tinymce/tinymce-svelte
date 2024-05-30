@@ -1,3 +1,9 @@
+<!--
+  @component
+
+  @see {@link https://www.tiny.cloud/docs/tinymce/7/svelte-ref/} for the TinyMCE Svelte Technical Reference.
+-->
+
 <script lang="ts" context="module">
   declare let global: { tinymce: TinyMCE }
   declare let window: Window & { tinymce: TinyMCE }
@@ -55,6 +61,7 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   type EditorOptions = Parameters<TinyMCE['init']>[0];
+  type Version = `${'4' | '5' | '6' | '7'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
@@ -62,7 +69,7 @@
   export let disabled: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string = '';
-  export let channel: string = '6';
+  export let channel: Version = '7';
   export let scriptSrc: string = undefined;
   export let conf: EditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
