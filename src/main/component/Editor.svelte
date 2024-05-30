@@ -61,6 +61,7 @@
   export let inline: boolean | undefined = undefined;
   export let disabled: boolean = false;
   export let apiKey: string = 'no-api-key';
+  export let licenseKey: string = '';
   export let channel: string = '6';
   export let scriptSrc: string = undefined;
   export let conf: EditorOptions = {};
@@ -110,6 +111,7 @@
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       readonly: disabled,
+      license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
         editor.on('init', () => {

@@ -1,6 +1,6 @@
 {
   "name": "@tinymce/tinymce-svelte",
-  "version": "2.0.3-rc",
+  "version": "3.0.0-rc",
   "description": "TinyMCE Svelte Component",
   "private": false,
   "publishConfig": {
@@ -75,10 +75,19 @@
     "svelte-check": "^3.4.3",
     "svelte-loader": "^3.1.8",
     "svelte-preprocess": "^5.0.3",
-    "tinymce": "^6.7.2",
+    "tinymce": "^7.1.1",
     "tslib": "^2.3.1",
     "typescript": "^5.0.0",
-    "webpack": "^5.76.2"
+    "webpack": "^5.76.2",
+    "@storybook/addons": "^6.2.9",
+    "@storybook/api": "^6.2.9",
+    "@storybook/client-api": "^6.2.9",
+    "@storybook/client-logger": "^6.2.9",
+    "@storybook/components": "^6.2.9",
+    "@storybook/core-events": "^6.2.9",
+    "@storybook/theming": "^6.2.9",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   },
   "resolutions": {
     "browserslist": "^4.16.5",

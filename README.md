@@ -70,6 +70,20 @@ Type: string
 <Editor
   apiKey="your-api-key"
 />
+
+```
+#### License Key
+
+Tiny Cloud license key. Required for deployments using the Tiny Cloud to provide the TinyMCE editor.
+
+Default value: licenseKey
+Type: string
+
+##### Example using licenseKey
+```
+<Editor
+  licenseKey="your-license-key"
+/>
 ```
 
 #### Channel
