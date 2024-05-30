@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Update README.md to contain license key info.
+- Added storybook dependence's for various `storybook/...` packages.
+- Added `react` and `react-dom` to dev-dependencies due to certain packages required it.
+- Added events `Input`, `CompositionEnd`, `CompositionStart` & `CompositionUpdate`.
+- Added `licenseKey` to config option.
+
+### Changed
+
+- Bumped package version to `3.0.0-rc` from `2.0.3-rc`.
+- Bumped `tinymce` version to `7.1.1` latest.
+
 ## 2.0.0 - 2023-12-04
 
 ### Changed
