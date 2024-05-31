@@ -74,10 +74,10 @@ Type: string
 ```
 #### License Key
 
-Tiny Cloud license key. Required for deployments using the Tiny Cloud to provide the TinyMCE editor.
+Tiny Cloud license key. Use this when self-hosting TinyMCE instead of loading from Tiny Cloud.
 
-Default value: licenseKey
-Type: string
+Default value: undefined
+Type: "gpl" or a valid TinyMCE license key
 
 ##### Example using licenseKey
 ```
