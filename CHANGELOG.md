@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Bumped `tinymce` version to `7.1.1` latest.
+- Bumped default `cloud` channel to use `7`.
 
 ## 2.0.0 - 2023-12-04
 
