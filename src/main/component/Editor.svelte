@@ -61,7 +61,7 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   type EditorOptions = Parameters<TinyMCE['init']>[0];
-  type Version = `${'4' | '5' | '6' | '7'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
+  type Channel = `${'4' | '5' | '6' | '7'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
