@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-### Added
+## 3.0.0 - 2024-06-05
 
+### Added
 - Update README.md to contain license key info.
 - Added storybook dependence's for various `storybook/...` packages.
 - Added `react` and `react-dom` to dev-dependencies due to certain packages required it.
@@ -16,7 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `licenseKey` to config option.
 
 ### Changed
-
 - Bumped `tinymce` version to `7.1.1` latest.
 - Bumped default `cloud` channel to use `7`.
 
