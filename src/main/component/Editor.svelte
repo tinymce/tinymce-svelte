@@ -69,7 +69,7 @@
   export let disabled: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string | undefined = undefined;
-  export let channel: Version = '7';
+  export let channel: Channel = '7';
   export let scriptSrc: string = undefined;
   export let conf: EditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
