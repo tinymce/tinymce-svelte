@@ -3,7 +3,8 @@
   "compilerOptions": {
     "sourceMap": true,
     "types": ["svelte"],
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "5.0",
+    "noImplicitAny": false
   },
 
   "include": ["src/**/*"],

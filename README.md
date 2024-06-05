@@ -70,6 +70,20 @@ Type: string
 <Editor
   apiKey="your-api-key"
 />
+
+```
+#### License Key
+
+Tiny Cloud license key. Use this when self-hosting TinyMCE instead of loading from Tiny Cloud.
+
+Default value: undefined
+Type: "gpl" or a valid TinyMCE license key
+
+##### Example using licenseKey
+```
+<Editor
+  licenseKey="your-license-key"
+/>
 ```
 
 #### Channel
