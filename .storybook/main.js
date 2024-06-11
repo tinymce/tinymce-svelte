@@ -1,7 +1,6 @@
 /** @typedef {import('storybook').config} */
 module.exports = {
   core: {
-    // builder: '@storybook/vite',
     disableTelemetry: true,
   },
   stories: [
@@ -13,7 +12,6 @@ module.exports = {
     options: {},
   },
   addons: [
-    // '@storybook/addon-interactions',
     '@storybook/addon-essentials',
     '@storybook/addon-svelte-csf',
   ],
