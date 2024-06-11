@@ -1,23 +1,26 @@
-const path = require('path');
-
+/** @typedef {import('storybook').config} */
 module.exports = {
-  "core": {
-    "builder": "webpack5"
+  core: {
+    // builder: '@storybook/vite',
+    disableTelemetry: true,
   },
-  "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx|svelte)"
+  stories: [
+    '../src/**/*.stories.mdx',
+    '../src/**/*.stories.@(js|jsx|ts|tsx|svelte)'
   ],
-  "addons": [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-svelte-csf"
-  ],
-  "svelteOptions": {
-    "preprocess": require("svelte-preprocess")()
+  framework: {
+    name: "@storybook/svelte-vite",
+    options: {},
   },
-  'webpackFinal': (config) => {
-    config.resolve.alias.svelte = path.resolve('node_modules', 'svelte/src/runtime');
-    return config;
+  addons: [
+    // '@storybook/addon-interactions',
+    '@storybook/addon-essentials',
+    '@storybook/addon-svelte-csf',
+  ],
+  docs: {
+    autodocs: 'tag'
+  },
+  svelteOptions: {
+    'preprocess': require('svelte-preprocess')()
   }
 }
