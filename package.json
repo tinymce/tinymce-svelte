@@ -28,7 +28,7 @@
     "test": "echo 'No tests hooked up yet'",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy-storybook": "yarn storybook-to-ghpages --source-branch=main",
+    "deploy-storybook": "storybook build && gh-pages -d ./storybook-static -u 'tiny-bot <no-reply@tiny.cloud>' --nojekyll",
     "prepublishOnly": "yarn run build"
   },
   "keywords": [
@@ -64,6 +64,7 @@
     "babel-loader": "^8.2.2",
     "eslint": "^7.32.0",
     "eslint-plugin-svelte": "^2.34.0",
+    "gh-pages": "^6.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rollup": "^2.56.2",
