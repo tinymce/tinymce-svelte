@@ -1,6 +1,11 @@
 <script>
   import Editor from '../main/component/Editor.svelte';
-  import { Meta, Story } from '@storybook/addon-svelte-csf';
+  import { Story } from '@storybook/addon-svelte-csf';
+
+  export const meta = {
+    title: 'Editor',
+    component: Editor
+  }
 
   const apiKey = 'b1g4d59rwwqxx1vj7mci23rjj8ubgb46i4xsio6ieig6fkps';
   const content = `
@@ -20,8 +25,6 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   }
   const controls = { channel: '7', conf: { plugins: 'help' } }
 </script>
-
-<Meta title="Editor" component={Editor}/>
 
 <Story name="Iframe" args={{ ...controls, inline: false }} let:args >
   <Editor {apiKey} {value} {...args}/>
