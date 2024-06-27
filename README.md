@@ -1,8 +1,15 @@
-# TinyMCE Svelte component
+# Official TinyMCE Svelte component
 
 ## About
 
 This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinymce) to make it easier to use in a Svelte application.
+
+* For the TinyMCE Svelte Quick Start, see: [TinyMCE Documentation - Svelte Integration](https://www.tiny.cloud/docs/tinymce/7/svelte-cloud/).
+* For a self-hosted setup using TinyMCE package with TinyMCE Svelte, see: [TinyMCE Documentation - TinyMCE package with Svelte](https://www.tiny.cloud/docs/tinymce/7/svelte-pm/).
+* For a self-hosted setup using TinyMCE .zip package with TinyMCE Svelte, see: [TinyMCE Documentation - TinyMCE .zip package with Svelte](https://www.tiny.cloud/docs/tinymce/7/svelte-zip/).
+* For the TinyMCE Svelte Technical Reference, see: [TinyMCE Documentation - TinyMCE Svelte Technical Reference](https://www.tiny.cloud/docs/tinymce/7/svelte-ref/).
+* For our quick demos, check out the TinyMCE Svelte [Storybook](https://tinymce.github.io/tinymce-svelte/).
+
 
 ## Quick start
 
@@ -15,7 +22,7 @@ cd my-tiny-app
 
 ### Add the Editor component
 
-Installl the editor component in your project
+Install the editor component in your project
 
 ```
 npm install @tinymce/tinymce-svelte
@@ -36,183 +43,7 @@ import Editor from '@tinymce/tinymce-svelte';
 
 ```
 
-## TinyMCE Svelte technical reference
 
-### Configuring the TinyMCE svelte integration
+### Issues
 
-The editor component accepts the following properties:
-
-```
-<Editor
-  apiKey="api-key"
-  channel="5"
-  id="uuid"
-  inline=false
-  disabled=false
-  scriptSrc=undefined
-  conf={}
-  modelEvents="input change undo redo"
-  value="value"
-  text="readonly-text-output"
-  cssClass="tinymce-wrapper"
-/>
-```
-
-#### ApiKey
-
-Tiny Cloud API key. Required for deployments using the Tiny Cloud to provide the TinyMCE editor.
-
-Default value: no-api-key
-Type: string
-
-##### Example using ApiKey
-```
-<Editor
-  apiKey="your-api-key"
-/>
-
-```
-#### License Key
-
-Tiny Cloud license key. Use this when self-hosting TinyMCE instead of loading from Tiny Cloud.
-
-Default value: undefined
-Type: "gpl" or a valid TinyMCE license key
-
-##### Example using licenseKey
-```
-<Editor
-  licenseKey="your-license-key"
-/>
-```
-
-#### Channel
-
-Specifies the Tiny Cloud channel to use. For more information on TinyMCE development channels, see: [Specifying the TinyMCE editor version deployed from Cloud - dev, testing, and stable releases](https://www.tiny.cloud/docs/cloud-deployment-guide/editor-plugin-version/#devtestingandstablereleases)
-
-Default value: '5'
-Type: string
-
-##### Example using channel
-```
-<Editor
-  channel="5-dev"
-/>
-```
-
-#### CssClass
-
-Specifies the name of the class or classes to use for the `div` wrapping the editor.
-
-Default value: 'tinymce-wrapper'
-Type: string
-
-##### Example using cssClass
-```
-<script>
-let editorCss = 'active editor';
-</script>
-<Editor
-  cssClass={editorCss}
-/>
-```
-
-#### Id
-
-Specified an Id for the editor. Used for retrieving the editor instance using the `tinymce.get('ID')` method.
-
-Default value: Automatically generated UUID
-Type: string
-
-##### Example using Id
-```
-<Editor
-  id="my-unique-identifier"
-/>
-```
-
-#### Inline
-
-Set the editor to inline mode.
-
-Default value: false
-Type: bool
-
-##### Example using Inline
-```
-<Editor
-  inline=true
-/>
-```
-
-#### Disabled
-
-Set the editor to readonly mode.
-
-Default value: false
-Type: bool
-
-##### Example using Disabled
-```
-<Editor
-  disabled=true
-/>
-```
-
-#### Conf
-
-Specify a set of properties for the `Tinymce.init` method to initialize the editor.
-
-Default value: {}
-Type: Object
-
-##### Example using Conf
-```
-<script>
- let conf = {
-   toolbar: 'undo redo',
-   menubar: false
- }
-</script>
-<main>
-  <Editor
-    {conf}
-  />
-</main>
-```
-
-### Component binding
-
-#### Input binding
-
-The editor component allows users to bind the contents of editor to a variable. By specifying the `bind:value`, users can do two-way binding on a select variable.
-
-#### Example of input binding
-
-```
-<script>
-let value = 'some content';
-</script>
-<main>
-  <Editor bind:value={value} />
-  <div>{@html value}</div>
-  <textarea bind:value={value}></textarea>
-</main>
-```
-
-
-#### Binding text output
-
-The editor exposes the `text` property as a read-only value you can bind to get the editor content as text. It is important to remember that changes will not propagate up the editor if the text bound variable changes. It will only propagate changes from the editor.
-
-#### Example of text binding
-
-```
-<script>
-let text = '';
-</script>
-<main>
-  <Editor bind:text={text} />
-  <div>{text}</div>
-</main>
-```
+Have you found an issue with tinymce-svelte or do you have a feature request? Open up an [issue](https://github.com/tinymce/tinymce-svelte/issues) and let us know or submit a [pull request](https://github.com/tinymce/tinymce-svelte/pulls). *Note: For issues concerning TinyMCE please visit the [TinyMCE repository](https://github.com/tinymce/tinymce).*
