@@ -15,7 +15,7 @@ This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinym
 ### Create a Svelte App with Vite
 
 ```bash
-npm create vite@5 tinymce-svelte-demo -- --template svelte-ts
+npm create vite@5 tinymce-svelte-demo -- --template svelte
 cd tinymce-svelte-demo
 npm install
 ```
@@ -31,7 +31,7 @@ npm install @tinymce/tinymce-svelte
 Replace the contents of `src/App.svelte` with the following code and replace `your-api-key` with your Tiny Cloud API key:
 
 ```html
-<script lang="ts">
+<script>
 import Editor from '@tinymce/tinymce-svelte';
 let conf = {
   menubar: false
