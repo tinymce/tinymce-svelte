@@ -4,7 +4,8 @@
     "sourceMap": true,
     "types": ["svelte"],
     "ignoreDeprecations": "5.0",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "baseUrl": ".",
   },
 
   "include": ["src/**/*"],
