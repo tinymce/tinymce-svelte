@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import execute from "rollup-plugin-execute";
 import pkg from './package.json';
+import { svelteTesting } from '@testing-library/svelte/vite';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -62,6 +63,7 @@ export default {
 		svelte({
 			preprocess: sveltePreprocess(),
 		}),
+    svelteTesting(),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
