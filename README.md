@@ -11,39 +11,6 @@ This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinym
 * For our quick demos, check out the TinyMCE Svelte [Storybook](https://tinymce.github.io/tinymce-svelte/).
 
 
-## Quick start
-
-### Create a Svelte App from a template
-
-```
-npx degit sveltejs/template my-tiny-app
-cd my-tiny-app
-```
-
-### Add the Editor component
-
-Install the editor component in your project
-
-```
-npm install @tinymce/tinymce-svelte
-```
-
-## Import the TinyMCE component
-
-Import the TinyMCE component inside the script tag of your Svelte app
-
-```
-<script lang="ts">
-import Editor from '@tinymce/tinymce-svelte';
-</script>
-<main>
-  <h1> Hello Tiny</h1>
-  <Editor />
-</main>
-
-```
-
-
 ### Issues
 
 Have you found an issue with tinymce-svelte or do you have a feature request? Open up an [issue](https://github.com/tinymce/tinymce-svelte/issues) and let us know or submit a [pull request](https://github.com/tinymce/tinymce-svelte/pulls). *Note: For issues concerning TinyMCE please visit the [TinyMCE repository](https://github.com/tinymce/tinymce).*
