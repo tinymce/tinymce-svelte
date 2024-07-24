@@ -45,6 +45,14 @@
     "CHANGELOG.md",
     "LICENSE.txt"
   ],
+  "peerDependencies": {
+    "tinymce": "^7.0.0 || ^6.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tinymce": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@rollup/plugin-commonjs": "^17.0.0",
