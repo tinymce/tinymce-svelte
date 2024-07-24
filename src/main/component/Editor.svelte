@@ -70,7 +70,7 @@
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string | undefined = undefined;
   export let channel: Channel = '7';
-  export let scriptSrc: string = undefined;
+  export let scriptSrc: string | undefined = undefined;
   export let conf: EditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
   export let value: string = '';
@@ -139,7 +139,7 @@
       },
     };
     element.style.visibility = '';
-    void getTinymce().init(finalInit);
+    void getTinymce()?.init(finalInit);
   };
   
   onMount(() => {
