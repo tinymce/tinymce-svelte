@@ -45,6 +45,14 @@
     "CHANGELOG.md",
     "LICENSE.txt"
   ],
+  "peerDependencies": {
+    "tinymce": "^7.0.0 || ^6.0.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "tinymce": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -76,7 +84,7 @@
     "svelte-check": "^3.8.0",
     "svelte-loader": "^3.2.0",
     "svelte-preprocess": "^5.1.4",
-    "tinymce": "^7.1.1",
+    "tinymce": "^7.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.13",
