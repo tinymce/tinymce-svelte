@@ -67,6 +67,7 @@
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
   export let disabled: boolean = false;
+  export let readonly: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string | undefined = undefined;
   export let channel: Channel = '7';
@@ -82,6 +83,7 @@
   let editorRef: TinyMCEEditor | null;
   let lastVal = value;
   let disablindCache = disabled;
+  let readonlyCache = readonly;
   
   const dispatch = createEventDispatcher();
   
@@ -90,10 +92,14 @@
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
     }
+    if (editorRef && readonly !== readonlyCache) {
+      readonlyCache = readonly;
+      editorRef.mode.set(readonly ? 'readonly' : 'design');
+    }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
       if (typeof editorRef.mode?.set === 'function') {
-        editorRef.mode.set(disabled ? 'readonly' : 'design');
+        editorRef.options.set('disabled', disabled);
       } else {
         interface TinyMCEEditor4 extends TinyMCEEditor {
           setMode: (input: string) => void
@@ -117,7 +123,8 @@
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
-      readonly: disabled,
+      readonly,
+      disabled,
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
