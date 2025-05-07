@@ -9,7 +9,7 @@
   import Editor from '../main/component/Editor.svelte';
   import { Story } from '@storybook/addon-svelte-csf';
 
-  const apiKey = 'b1g4d59rwwqxx1vj7mci23rjj8ubgb46i4xsio6ieig6fkps';
+  const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
 <h2 style="text-align: center;">
 TinyMCE provides a <span style="text-decoration: underline;">full-featured</span> rich text editing experience, and a featherweight download.
