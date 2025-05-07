@@ -70,7 +70,13 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
 <Story name="Disabling" args={controls} let:args>
   <div>
     <button on:click={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
+    <Editor {apiKey} {disabled} {value} {...args}/>
+  </div>
+</Story>
+
+<Story name="Readonly" args={controls} let:args>
+  <div>
     <button on:click={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
-    <Editor {apiKey} {disabled} {readonly} {value} {...args}/>
+    <Editor {apiKey} {readonly} {value} {...args}/>
   </div>
 </Story>
