@@ -94,7 +94,14 @@
     }
     if (editorRef && readonly !== readonlyCache) {
       readonlyCache = readonly;
-      editorRef.mode.set(readonly ? 'readonly' : 'design');
+      if (typeof editorRef.mode?.set === 'function') {
+        editorRef.mode.set(readonly ? 'readonly' : 'design');
+      } else {
+        interface TinyMCEEditor4 extends TinyMCEEditor {
+          setMode: (input: string) => void
+        }
+        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
+      }
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
