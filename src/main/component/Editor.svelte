@@ -98,7 +98,7 @@
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      if (typeof editorRef.mode?.set === 'function') {
+      if (typeof editorRef.options.set === 'function') {
         editorRef.options.set('disabled', disabled);
       } else {
         interface TinyMCEEditor4 extends TinyMCEEditor {
