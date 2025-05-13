@@ -12,6 +12,10 @@
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
   };
 
+  const isDisabledOptionSupported = (editor: TinyMCEEditor): boolean => {
+    return typeof editor.options.set === 'function' && editor.options.isRegistered('disabled')
+  };
+
   const createScriptLoader = () => {
     let state: {
       listeners: Array<() => void>,
@@ -94,7 +98,7 @@
     }
     if (editorRef && readonly !== readonlyCache) {
       readonlyCache = readonly;
-      if (typeof editorRef.mode?.set === 'function') {
+      if (typeof editorRef.mode?.set === 'function' && isDisabledOptionSupported(editorRef)) {
         editorRef.mode.set(readonly ? 'readonly' : 'design');
       } else {
         interface TinyMCEEditor4 extends TinyMCEEditor {
@@ -105,7 +109,7 @@
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      if (typeof editorRef.options.set === 'function') {
+      if (isDisabledOptionSupported(editorRef)) {
         editorRef.options.set('disabled', disabled);
       } else {
         interface TinyMCEEditor4 extends TinyMCEEditor {
