@@ -89,8 +89,22 @@
   let disablindCache = disabled;
   let readonlyCache = readonly;
   
+  const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
+    if (typeof editor.mode?.set === 'function' && isDisabledOptionSupported(editor)) {
+      editor.mode.set(readonlyValue ? 'readonly' : 'design');
+    }
+  }
+
+  const setDisabled = (editor: TinyMCEEditor, disabledValue: boolean, readonlyValue: boolean) => {
+    if (isDisabledOptionSupported(editor)) {
+        editor.options.set('disabled', disabledValue);
+      } else {
+        editor.mode.set(readonlyValue ? 'readonly' : 'design');
+      }
+  }
+
   const dispatch = createEventDispatcher();
-  
+
   $: {
     if (editorRef && lastVal !== value) {
       editorRef.setContent(value);
@@ -98,17 +112,11 @@
     }
     if (editorRef && readonly !== readonlyCache) {
       readonlyCache = readonly;
-      if (typeof editorRef.mode?.set === 'function' && isDisabledOptionSupported(editorRef)) {
-        editorRef.mode.set(readonly ? 'readonly' : 'design');
-      }
+      setReadonly(editorRef, readonly);
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      if (isDisabledOptionSupported(editorRef)) {
-        editorRef.options.set('disabled', disabled);
-      } else {
-        editorRef.mode.set(readonly ? 'readonly' : 'design');
-      }
+      setDisabled(editorRef, disabled, readonly);
     }
   }
   
@@ -126,11 +134,11 @@
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
-      readonly,
-      disabled,
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
+        setDisabled(editorRef, disabled, readonly);
+        setReadonly(editorRef, readonly);
         editor.on('init', () => {
           editor.setContent(value);
           // bind model events
