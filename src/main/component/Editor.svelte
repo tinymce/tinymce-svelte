@@ -100,11 +100,6 @@
       readonlyCache = readonly;
       if (typeof editorRef.mode?.set === 'function' && isDisabledOptionSupported(editorRef)) {
         editorRef.mode.set(readonly ? 'readonly' : 'design');
-      } else {
-        interface TinyMCEEditor4 extends TinyMCEEditor {
-          setMode: (input: string) => void
-        }
-        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
       }
     }
     if (editorRef && disabled !== disablindCache) {
@@ -112,10 +107,7 @@
       if (isDisabledOptionSupported(editorRef)) {
         editorRef.options.set('disabled', disabled);
       } else {
-        interface TinyMCEEditor4 extends TinyMCEEditor {
-          setMode: (input: string) => void
-        }
-        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
+        editorRef.mode.set(readonly ? 'readonly' : 'design');
       }
     }
   }
