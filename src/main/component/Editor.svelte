@@ -95,11 +95,11 @@
     }
   }
 
-  const setDisabled = (editor: TinyMCEEditor, disabledValue: boolean, readonlyValue: boolean) => {
+  const setDisabled = (editor: TinyMCEEditor, disabledValue: boolean) => {
     if (isDisabledOptionSupported(editor)) {
         editor.options.set('disabled', disabledValue);
       } else {
-        editor.mode.set(readonlyValue ? 'readonly' : 'design');
+        editor.mode.set(disabledValue ? 'readonly' : 'design');
       }
   }
 
@@ -116,7 +116,7 @@
     }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      setDisabled(editorRef, disabled, readonly);
+      setDisabled(editorRef, disabled);
     }
   }
   
@@ -137,7 +137,7 @@
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
         editorRef = editor;
-        setDisabled(editorRef, disabled, readonly);
+        setDisabled(editorRef, disabled);
         setReadonly(editorRef, readonly);
         editor.on('init', () => {
           editor.setContent(value);
