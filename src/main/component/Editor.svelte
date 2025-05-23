@@ -136,9 +136,11 @@
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
+        editor.on('PreInit', () => {
+          setDisabled(editor, disabled);
+          setReadonly(editor, readonly);
+        });
         editorRef = editor;
-        setDisabled(editorRef, disabled);
-        setReadonly(editorRef, readonly);
         editor.on('init', () => {
           editor.setContent(value);
           // bind model events
