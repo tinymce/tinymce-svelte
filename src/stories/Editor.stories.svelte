@@ -6,8 +6,8 @@
 </script>
 
 <script>
-  import Editor from '../main/component/Editor.svelte';
   import { Story } from '@storybook/addon-svelte-csf';
+  import Editor from '../main/component/Editor.svelte';
 
   const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
@@ -20,10 +20,14 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
 
   let value = content;
   let disabled = true;
+  let readonly = true;
   let text = '';
 
   const toggleDisabled = () => {
     disabled = !disabled;
+  }
+  const toggleReadonly = () => {
+    readonly = !readonly;
   }
   const controls = { channel: '7', conf: { plugins: 'help' } }
 </script>
@@ -67,5 +71,12 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   <div>
     <button on:click={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
     <Editor {apiKey} {disabled} {value} {...args}/>
+  </div>
+</Story>
+
+<Story name="Readonly" args={controls} let:args>
+  <div>
+    <button on:click={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
+    <Editor {apiKey} {readonly} {value} {...args}/>
   </div>
 </Story>
