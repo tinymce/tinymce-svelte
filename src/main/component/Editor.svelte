@@ -90,7 +90,7 @@
   let readonlyCache = readonly;
   
   const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
-    if (typeof editor.mode?.set === 'function' && isDisabledOptionSupported(editor)) {
+    if (typeof editor.mode?.set === 'function') {
       editor.mode.set(readonlyValue ? 'readonly' : 'design');
     }
   }
