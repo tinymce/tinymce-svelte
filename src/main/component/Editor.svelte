@@ -12,6 +12,10 @@
     return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
   };
 
+  const isDisabledOptionSupported = (editor: TinyMCEEditor): boolean => {
+    return typeof editor.options.set === 'function' && editor.options.isRegistered('disabled')
+  };
+
   const createScriptLoader = () => {
     let state: {
       listeners: Array<() => void>,
@@ -67,6 +71,7 @@
   export let id: string = uuid('tinymce-svelte'); // default values
   export let inline: boolean | undefined = undefined;
   export let disabled: boolean = false;
+  export let readonly: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string | undefined = undefined;
   export let channel: Channel = '7';
@@ -82,24 +87,36 @@
   let editorRef: TinyMCEEditor | null;
   let lastVal = value;
   let disablindCache = disabled;
+  let readonlyCache = readonly;
   
+  const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
+    if (typeof editor.mode?.set === 'function') {
+      editor.mode.set(readonlyValue ? 'readonly' : 'design');
+    }
+  }
+
+  const setDisabled = (editor: TinyMCEEditor, disabledValue: boolean) => {
+    if (isDisabledOptionSupported(editor)) {
+        editor.options.set('disabled', disabledValue);
+      } else {
+        editor.mode.set(disabledValue ? 'readonly' : 'design');
+      }
+  }
+
   const dispatch = createEventDispatcher();
-  
+
   $: {
     if (editorRef && lastVal !== value) {
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
     }
+    if (editorRef && readonly !== readonlyCache) {
+      readonlyCache = readonly;
+      setReadonly(editorRef, readonly);
+    }
     if (editorRef && disabled !== disablindCache) {
       disablindCache = disabled;
-      if (typeof editorRef.mode?.set === 'function') {
-        editorRef.mode.set(disabled ? 'readonly' : 'design');
-      } else {
-        interface TinyMCEEditor4 extends TinyMCEEditor {
-          setMode: (input: string) => void
-        }
-        (editorRef as TinyMCEEditor4).setMode(disabled ? 'readonly' : 'design');
-      }
+      setDisabled(editorRef, disabled);
     }
   }
   
@@ -117,9 +134,12 @@
       ...conf,
       target: element,
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
-      readonly: disabled,
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
+        editor.on('PreInit', () => {
+          setDisabled(editor, disabled);
+          setReadonly(editor, readonly);
+        });
         editorRef = editor;
         editor.on('init', () => {
           editor.setContent(value);
