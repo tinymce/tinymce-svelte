@@ -13,10 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tinymce "^v7.0.0 || ^v6.0.0 || ^v5.0.0" is now an optional peer dependency. #INT-3324
 
 ### Changed
-- `disabled` property is now mapped to the TinyMCE `disabled` option. #TINY-11911
+- `disabled` property is now mapped to the TinyMCE `disabled` option. #TINY-11909
 
 ### Added
-- Added `readonly` property that maps to the TinyMCE `readonly` option. #TINY-11911
+- Added `readonly` property that maps to the TinyMCE `readonly` option. #TINY-11909
 
 ## 3.0.0 - 2024-06-05
 
