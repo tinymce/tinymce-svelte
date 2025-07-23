@@ -7,14 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.1.0 - 2025-05-29
+
 ### Fixed
 - tinymce "^v7.0.0 || ^v6.0.0 || ^v5.0.0" is now an optional peer dependency. #INT-3324
 
 ### Changed
-- `disabled` property is now mapped to the TinyMCE `disabled` option.
+- `disabled` property is now mapped to the TinyMCE `disabled` option. #TINY-11909
 
 ### Added
-- Added `readonly` property that maps to the TinyMCE `readonly` option.
+- Added `readonly` property that maps to the TinyMCE `readonly` option. #TINY-11909
 
 ## 3.0.0 - 2024-06-05
 
