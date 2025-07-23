@@ -73,7 +73,7 @@
   export let disabled: boolean = false;
   export let readonly: boolean = false;
   export let apiKey: string = 'no-api-key';
-  export let licenseKey: string = 'gpl';
+  export let licenseKey: string | undefined = undefined;
   export let channel: Channel = '8';
   export let scriptSrc: string | undefined = undefined;
   export let conf: EditorOptions = {};
