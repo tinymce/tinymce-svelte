@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+- Set the default cloudChannel to `8`. #INT-3353
+- Moved `rollup-plugin-execute` to devDependency. #INT-3353
+
 ## 3.1.0 - 2025-05-29
 
 ### Fixed
