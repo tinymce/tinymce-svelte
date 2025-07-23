@@ -7487,10 +7487,10 @@ tiny-invariant@^1.3.1, tiny-invariant@^1.3.3:
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.3.3.tgz#46680b7a873a0d5d10005995eb90a70d74d60127"
   integrity sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==
 
-tinymce@^7.2.1:
-  version "7.9.1"
-  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-7.9.1.tgz#1b18bad9cb7a3b4b12e3e5a7f29fc7daad0713d7"
-  integrity sha512-zaOHwmiP1EqTeLRXAvVriDb00JYnfEjWGPdKEuac7MiZJ5aiDMZ4Unc98Gmajn+PBljOmO1GKV6G0KwWn3+k8A==
+tinymce@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-8.0.0.tgz#e6abd6bd31a2972f0a514462c281d4f7b2dae50e"
+  integrity sha512-E1OwCXXCzmZLx6sQVeMHdb61Hsp+7AxWtYstXp7Yw59Et4AdHQ0N36n7InVaYDmq2aBlCM8qkTQYKEqKgecP3A==
 
 tmp@^0.2.1:
   version "0.2.3"

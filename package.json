@@ -76,6 +76,7 @@
     "react-dom": "^18",
     "rollup": "^2.56.2",
     "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-execute": "^1.1.1",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.1.5",
     "rollup-plugin-terser": "^7.0.0",
@@ -84,7 +85,7 @@
     "svelte-check": "^3.8.0",
     "svelte-loader": "^3.2.0",
     "svelte-preprocess": "^5.1.4",
-    "tinymce": "^7.2.1",
+    "tinymce": "^8.0.0",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.13",
@@ -95,7 +96,5 @@
     "glob-parent": "^5.1.2",
     "trim": "^0.0.3"
   },
-  "dependencies": {
-    "rollup-plugin-execute": "^1.1.1"
-  }
+  "dependencies": {}
 }
