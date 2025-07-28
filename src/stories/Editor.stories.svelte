@@ -29,7 +29,7 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   const toggleReadonly = () => {
     readonly = !readonly;
   }
-  const controls = { channel: '7', conf: { plugins: 'help' } }
+  const controls = { channel: '8' }
 </script>
 
 <Story name="Iframe" args={{ ...controls, inline: false }} let:args>

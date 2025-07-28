@@ -65,7 +65,7 @@
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   type EditorOptions = Parameters<TinyMCE['init']>[0];
-  type Channel = `${'4' | '5' | '6' | '7'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
+  type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
   import { bindHandlers } from './Utils';
   export let id: string = uuid('tinymce-svelte'); // default values
@@ -74,7 +74,7 @@
   export let readonly: boolean = false;
   export let apiKey: string = 'no-api-key';
   export let licenseKey: string | undefined = undefined;
-  export let channel: Channel = '7';
+  export let channel: Channel = '8';
   export let scriptSrc: string | undefined = undefined;
   export let conf: EditorOptions = {};
   export let modelEvents: string = 'change input undo redo';
