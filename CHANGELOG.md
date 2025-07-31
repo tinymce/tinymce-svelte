@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.2.0 - 2025-07-31
+
 ### Changed
 - Set the default `channel` to `8`. #INT-3353
 - Moved `rollup-plugin-execute` to devDependency. #INT-3353
+- Updated peer dependency to support tinymce `8`. #INT-3353
 
 ## 3.1.0 - 2025-05-29
 
