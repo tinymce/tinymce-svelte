@@ -1,5 +1,6 @@
+import type { TinyMCE } from "tinymce";
 
-const validEvents = [
+export const validEvents = [
   'Activate',
   'AddUndo',
   'BeforeAddUndo',
@@ -67,16 +68,17 @@ const validEvents = [
   'Show',
   'Submit',
   'Undo',
-  'VisualAid' ];
+  'VisualAid'] as const;
 
-const bindHandlers = (editor, dispatch) => {
-  validEvents.forEach( (eventName) => {
+export type EventHandlers = {
+  [K in typeof validEvents[number] as Lowercase<K>]: (event: any, editor: TinyMCE) => void;
+};
+
+
+const bindHandlers = (editor, eventHandlers: Partial<EventHandlers>) => {
+  validEvents.forEach((eventName) => {
     editor.on(eventName, (e) => {
-      dispatch(eventName.toLowerCase(), {
-        eventName,
-        event: e,
-        editor
-      });
+      eventHandlers[eventName.toLowerCase()]?.(e, editor);
     });
   });
 };
