@@ -1,4 +1,4 @@
-<script context="module">
+<script module>
   export const meta = {
     title: 'Editor',
     component: Editor
@@ -18,10 +18,10 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
 <strong><span style="font-size: 14pt;"><span style="color: #7e8c8d; font-weight: 600;">No matter what you're building, TinyMCE has got you covered.</span></span></strong>
 </p>`.trim();
 
-  let value = content;
-  let disabled = true;
-  let readonly = true;
-  let text = '';
+  let value = $state(content);
+  let disabled = $state(true);
+  let readonly = $state(true);
+  let text = $state('');
 
   const toggleDisabled = () => {
     disabled = !disabled;
@@ -32,51 +32,65 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   const controls = { channel: '8' }
 </script>
 
-<Story name="Iframe" args={{ ...controls, inline: false }} let:args>
-  <Editor {apiKey} {value} {...args}/>
+<Story name="Iframe" args={{ ...controls, inline: false }} >
+  {#snippet children({ args })}
+    <Editor {apiKey} {value} {...args}/>
+  {/snippet}
 </Story>
 
-<Story name="Inline" args={{ ...controls, inline: true }} let:args>
-  <div style="padding-top:100px;">
-    <Editor {apiKey} {value} {...args} />
-  </div>
-</Story>
-
-<Story name="Value binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value {...args}/>
-    <div>
-      {@html value}
+<Story name="Inline" args={{ ...controls, inline: true }} >
+  {#snippet children({ args })}
+    <div style="padding-top:100px;">
+      <Editor {apiKey} {value} {...args} />
     </div>
-  </div>
+  {/snippet}
 </Story>
 
-<Story name="Input binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value {...args}/>
-    <textarea style="width:100%;height:200px" bind:value></textarea>
-  </div>
+<Story name="Value binding" args={controls} >
+  {#snippet children({ args })}
+    <div>
+      <Editor {apiKey} bind:value {...args}/>
+      <div>
+        {@html value}
+      </div>
+    </div>
+  {/snippet}
 </Story>
 
-<Story name="Text binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value bind:text {...args}/>
-    <div>{text}</div>
-    <div>{@html value}</div>
-    <textarea style="width:100%;height:200px" bind:value={text}></textarea>
-  </div>
+<Story name="Input binding" args={controls} >
+  {#snippet children({ args })}
+    <div>
+      <Editor {apiKey} bind:value {...args}/>
+      <textarea style="width:100%;height:200px" bind:value></textarea>
+    </div>
+  {/snippet}
 </Story>
 
-<Story name="Disabling" args={controls} let:args>
-  <div>
-    <button on:click={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
-    <Editor {apiKey} {disabled} {value} {...args}/>
-  </div>
+<Story name="Text binding" args={controls} >
+  {#snippet children({ args })}
+    <div>
+      <Editor {apiKey} bind:value bind:text {...args}/>
+      <div>{text}</div>
+      <div>{@html value}</div>
+      <textarea style="width:100%;height:200px" bind:value={text}></textarea>
+    </div>
+  {/snippet}
 </Story>
 
-<Story name="Readonly" args={controls} let:args>
-  <div>
-    <button on:click={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
-    <Editor {apiKey} {readonly} {value} {...args}/>
-  </div>
+<Story name="Disabling" args={controls} >
+  {#snippet children({ args })}
+    <div>
+      <button onclick={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
+      <Editor {apiKey} {disabled} {value} {...args}/>
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Readonly" args={controls} >
+  {#snippet children({ args })}
+    <div>
+      <button onclick={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
+      <Editor {apiKey} {readonly} {value} {...args}/>
+    </div>
+  {/snippet}
 </Story>
