@@ -3,7 +3,6 @@
 
 beehiveFlowBuild(
   container: [
-    tag: '18',
     resourceRequestMemory: '4Gi',
     resourceLimitCpu: '4',
     resourceLimitMemory: '4Gi'
