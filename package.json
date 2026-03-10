@@ -58,10 +58,10 @@
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-typescript": "^8.5.0",
-    "@storybook/addon-essentials": "^8.6.14",
-    "@storybook/addon-svelte-csf": "^4.2.0",
-    "@storybook/svelte": "^8.6.14",
-    "@storybook/svelte-vite": "^8.6.14",
+    "@storybook/addon-docs": "^10.2.17",
+    "@storybook/addon-svelte-csf": "^5.0.11",
+    "@storybook/svelte": "^10.2.17",
+    "@storybook/svelte-vite": "^10.2.17",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@tinymce/beehive-flow": "^0.19.0",
     "@tinymce/eslint-plugin": "3.0.0",
@@ -70,6 +70,7 @@
     "@typescript-eslint/parser": "^8.46.2",
     "babel-loader": "^8.4.1",
     "eslint": "^9.38.0",
+    "eslint-plugin-storybook": "10.2.17",
     "eslint-plugin-svelte": "^3.12.5",
     "gh-pages": "^6.3.0",
     "react": "^18",
@@ -80,7 +81,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-svelte": "^7.2.3",
     "rollup-plugin-terser": "^7.0.2",
-    "storybook": "^8.6.14",
+    "storybook": "^10.2.17",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "svelte-loader": "^3.2.4",
@@ -95,6 +96,5 @@
     "browserslist": "^4.16.5",
     "glob-parent": "^5.1.2",
     "trim": "^0.0.3"
-  },
-  "dependencies": {}
+  }
 }
