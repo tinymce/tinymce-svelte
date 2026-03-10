@@ -1,10 +1,10 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
     "types": ["svelte"],
     "ignoreDeprecations": "5.0",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "verbatimModuleSyntax": true
   },
 
   "include": [
