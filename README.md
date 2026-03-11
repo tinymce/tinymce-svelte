@@ -15,7 +15,10 @@ This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinym
 |`tinymce-svelte`         |Svelte         |
 |---                      |---            |
 |4.x                      |>= 5.x         |
-|<= 3.x                   |<= 4.x         |
+|<= 3.x                   |<= 5.x  (*)    |
+
+- (*): Svelte 5 projects can use `tinymce-svelte` 3.x because Svelte 5 still supports the old Svelte 4 syntax.
+
 
 ### Issues
 
