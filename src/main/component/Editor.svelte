@@ -62,14 +62,13 @@
 </script>
 
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import { createEventDispatcher, onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
+  import { bindHandlers } from './Utils';
+
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
-  import { bindHandlers } from './Utils';
   interface Props {
     id?: string; // default values
     inline?: boolean | undefined;
@@ -106,12 +105,11 @@
   let element: HTMLElement = $state();
   let editorRef: TinyMCEEditor | null = $state();
   // The following three variables are not meant to be reactive, but we need to track them to avoid unnecessary editor updates.
+  let lastVal = $state.snapshot(value);
   // svelte-ignore state_referenced_locally
-  let lastVal = value;
+  let disablindCache = $state.snapshot(disabled)
   // svelte-ignore state_referenced_locally
-  let disablindCache = disabled;
-  // svelte-ignore state_referenced_locally
-  let readonlyCache = readonly;
+  let readonlyCache = $state.snapshot(readonly);
   
   const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
     if (typeof editor.mode?.set === 'function') {
@@ -129,8 +127,7 @@
 
   const dispatch = createEventDispatcher();
 
-  // TODO: use run() instead $effect rune due to the SSR implications. We should consider a better way to handle this in the future.
-  run(() => {
+  $effect(() => {
     if (editorRef && lastVal !== value) {
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
