@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- `svelte` to peer dependency. #INT-3311
+
+#### Changed
+- Upgraded to support Svelte 5. #INT-3311
+
 ## 3.2.0 - 2025-07-31
 
 ### Changed

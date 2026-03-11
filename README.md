@@ -10,6 +10,12 @@ This package is a thin wrapper around [TinyMCE](https://github.com/tinymce/tinym
 * For the TinyMCE Svelte Technical Reference, see: [TinyMCE Documentation - TinyMCE Svelte Technical Reference](https://www.tiny.cloud/docs/tinymce/8/svelte-ref/).
 * For our quick demos, check out the TinyMCE Svelte [Storybook](https://tinymce.github.io/tinymce-svelte/).
 
+### Supported Versions
+
+|`tinymce-svelte`         |Svelte         |
+|---                      |---            |
+|4.x                      |>= 5.x         |
+|<= 3.x                   |<= 4.x         |
 
 ### Issues
 
