@@ -46,8 +46,8 @@
     "LICENSE.txt"
   ],
   "peerDependencies": {
-    "tinymce": "^8.0.0 || ^7.0.0 || ^6.0.0 || ^5.0.0",
-    "svelte": "^5.0.0"
+    "svelte": "^5.0.0",
+    "tinymce": "^8.0.0 || ^7.0.0 || ^6.0.0 || ^5.0.0"
   },
   "peerDependenciesMeta": {
     "tinymce": {
@@ -55,7 +55,6 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-typescript": "^8.5.0",
@@ -69,13 +68,10 @@
     "@tsconfig/svelte": "^5.0.5",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
-    "babel-loader": "^8.4.1",
     "eslint": "^9.38.0",
     "eslint-plugin-storybook": "10.2.17",
-    "eslint-plugin-svelte": "^3.12.5",
+    "eslint-plugin-svelte": "^3.15.2",
     "gh-pages": "^6.3.0",
-    "react": "^18",
-    "react-dom": "^18",
     "rollup": "^2.79.2",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-execute": "^1.1.1",
@@ -90,8 +86,7 @@
     "tinymce": "^8.1.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
-    "vite": "^5.4.21",
-    "webpack": "^5.102.1"
+    "vite": "^5.4.21"
   },
   "resolutions": {
     "browserslist": "^4.16.5",
