@@ -100,9 +100,9 @@
     text = $bindable(''),
     cssClass = 'tinymce-wrapper'
   }: Props = $props();
-  
-  let container: HTMLElement = $state();
-  let element: HTMLElement = $state();
+  let container: HTMLElement | null = null;
+  // svelte-ignore non_reactive_update
+  let element: HTMLElement | null = null;
   let editorRef: TinyMCEEditor | null = $state();
   // The following three variables are not meant to be reactive, but we need to track them to avoid unnecessary editor updates.
   let lastVal = $state.snapshot(value);
@@ -189,7 +189,7 @@
       init();
     } else {
       const script = scriptSrc ? scriptSrc : `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${channel}/tinymce.min.js`;
-      scriptLoader.load(container.ownerDocument, script, () => {
+      scriptLoader.load(container?.ownerDocument, script, () => {
         init();
       });
     }
@@ -200,8 +200,8 @@
       getTinymce()?.remove(editorRef);
     }
   });
-  
 </script>
+
 <div bind:this={container} class={cssClass}>
 {#if inline}
   <div id={id} bind:this={element}></div>
