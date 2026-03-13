@@ -4,7 +4,8 @@
     "types": ["svelte"],
     "ignoreDeprecations": "5.0",
     "noImplicitAny": false,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "target": "es2022"
   },
 
   "include": [

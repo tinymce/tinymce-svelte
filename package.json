@@ -65,8 +65,8 @@
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@tinymce/beehive-flow": "^0.19.0",
     "@tinymce/eslint-plugin": "3.0.0",
-    "@tsconfig/svelte": "^5.0.5",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@tsconfig/svelte": "^5.0.8",
+    "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^9.38.0",
     "eslint-plugin-storybook": "10.2.17",
@@ -92,5 +92,8 @@
     "browserslist": "^4.16.5",
     "glob-parent": "^5.1.2",
     "trim": "^0.0.3"
+  },
+  "dependencies": {
+    "svelte-eslint-parser": "^1.6.0"
   }
 }

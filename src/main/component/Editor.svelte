@@ -62,14 +62,15 @@
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
   import { bindHandlers } from './Utils';
+  import type { EventHandlers } from './Utils';
 
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
-  interface Props {
+  interface Props extends EventHandlers {
     id?: string; // default values
     inline?: boolean | undefined;
     disabled?: boolean;
@@ -83,6 +84,7 @@
     value?: string;
     text?: string;
     cssClass?: string;
+    [key: string]: unknown;
   }
 
   let {
@@ -98,7 +100,8 @@
     modelEvents = 'change input undo redo',
     value = $bindable(''),
     text = $bindable(''),
-    cssClass = 'tinymce-wrapper'
+    cssClass = 'tinymce-wrapper',
+    ...eventHandlers
   }: Props = $props();
   let container: HTMLElement | undefined;
   // svelte-ignore non_reactive_update
@@ -124,8 +127,6 @@
         editor.mode.set(disabledValue ? 'readonly' : 'design');
       }
   }
-
-  const dispatch = createEventDispatcher();
 
   $effect(() => {
     if (editorRef && lastVal !== value) {
@@ -173,7 +174,7 @@
             }
           });
         });
-        bindHandlers(editor, dispatch);
+        bindHandlers(editor, eventHandlers);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);
         }

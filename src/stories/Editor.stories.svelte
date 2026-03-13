@@ -41,7 +41,7 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   {/snippet}
 </Story>
 
-<Story name="Inline" args={{ inline: true }} let:args>
+<Story name="Inline" args={{ inline: true }}>
     {#snippet template(args)}
       <div style="padding-top:100px; height:400px; border:1px solid #ccciq">
         <Editor {...args} {value} />

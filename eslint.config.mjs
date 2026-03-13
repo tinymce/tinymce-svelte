@@ -12,17 +12,17 @@ import svelteParser from 'svelte-eslint-parser';
 export default [{
   files: ['**/*.svelte'],
   languageOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
     parser: svelteParser,
     globals: {
       ...globals.browser,
-      ...globals.node,
+      ...globals.node
     },
     parserOptions: {
       parser: tsparser,
-      extraFileExtensions: ['.svelte'],
-    },
+      extraFileExtensions: ['.svelte']
+    }
   },
   plugins: {
     svelte,
@@ -30,14 +30,14 @@ export default [{
   },
   rules: {
     ...svelte.configs.recommended.rules,
-    eqeqeq: 'error',
-  },
+    eqeqeq: 'error'
+  }
 }, {
   files: ['**/*.ts'],
   languageOptions: {
     parser: tsparser,
     parserOptions: {
-      project: './tsconfig.json',
+      project: './tsconfig.json'
     },
   },
   plugins: {
@@ -47,6 +47,6 @@ export default [{
   rules: {
     '@tinymce/prefer-fun': 'off',
     '@typescript-eslint/no-duplicate-imports': 'off',
-    '@typescript-eslint/no-parameter-properties': 'off',
-  },
+    '@typescript-eslint/no-parameter-properties': 'off'
+  }
 }, ...storybook.configs["flat/recommended"]];
