@@ -81,6 +81,7 @@
     "storybook": "^10.2.17",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
+    "svelte-eslint-parser": "^1.6.0",
     "svelte-loader": "^3.2.4",
     "svelte-preprocess": "^6.0.0",
     "tinymce": "^8.1.2",
@@ -93,7 +94,5 @@
     "glob-parent": "^5.1.2",
     "trim": "^0.0.3"
   },
-  "dependencies": {
-    "svelte-eslint-parser": "^1.6.0"
-  }
+  "dependencies": {}
 }
