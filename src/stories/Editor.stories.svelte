@@ -1,6 +1,8 @@
 <script lang="ts" module>
   import Editor from '../main/component/Editor.svelte';
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import { validEvents } from '../main/component/Utils';
+  import { fn } from 'storybook/test';
 
   const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
@@ -23,7 +25,6 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
     readonly = !readonly;
   }
   const controls = { channel: '8' }
-
   const { Story } = defineMeta({
     title: 'Editor',
     component: Editor,
@@ -33,6 +34,12 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
       inline: false
     }
   });
+  const eventHandlers = validEvents.reduce((acc, eventName) => {
+    acc[eventName.toLowerCase()] = () => {
+      console.log('Handle event: ' + eventName.toLowerCase());
+    };
+    return acc;
+  }, {})
 </script>
 
 <Story name="Iframe">
@@ -95,5 +102,12 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
       <button onclick={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
       <Editor {readonly} {value} {...args}/>
     </div>
+  {/snippet}
+</Story>
+
+
+<Story name="Event Bindings">
+  {#snippet template(args)}
+    <Editor {readonly} {value} {...args} {...eventHandlers}/>
   {/snippet}
 </Story>
