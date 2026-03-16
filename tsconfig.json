@@ -1,13 +1,16 @@
-{
+ {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "types": ["svelte"],
     "ignoreDeprecations": "5.0",
     "noImplicitAny": false,
     "verbatimModuleSyntax": true,
-    "target": "es2022"
+    "isolatedModules": true,
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-
   "include": [
     "src/**/*"
   ],

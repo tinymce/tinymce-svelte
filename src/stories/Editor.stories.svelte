@@ -1,8 +1,8 @@
 <script lang="ts" module>
   import Editor from '../main/component/Editor.svelte';
+  import type { EditorProps } from '../main/component/Editor.svelte';
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import { validEvents } from '../main/component/Utils';
-  import { fn } from 'storybook/test';
 
   const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
@@ -32,7 +32,7 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
       ...controls,
       apiKey,
       inline: false
-    }
+    } as EditorProps
   });
   const eventHandlers = validEvents.reduce((acc, eventName) => {
     acc[eventName.toLowerCase()] = () => {
@@ -87,7 +87,7 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   {/snippet}
 </Story>
 
-<Story name="Disabling" args={disabled}>
+<Story name="Disabling" args={{disabled}}>
     {#snippet template(args)}
     <div>
         <button onclick={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>

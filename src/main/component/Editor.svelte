@@ -70,7 +70,7 @@
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
-  interface Props extends EventHandlers {
+  export interface EditorProps extends EventHandlers{
     id?: string; // default values
     inline?: boolean | undefined;
     disabled?: boolean;
@@ -84,7 +84,6 @@
     value?: string;
     text?: string;
     cssClass?: string;
-    [key: string]: unknown;
   }
 
   let {
@@ -102,7 +101,7 @@
     text = $bindable(''),
     cssClass = 'tinymce-wrapper',
     ...eventHandlers
-  }: Props = $props();
+  }: EditorProps = $props();
   let container: HTMLElement | undefined;
   // svelte-ignore non_reactive_update
   let element: HTMLElement | undefined;
@@ -174,7 +173,7 @@
             }
           });
         });
-        bindHandlers(editor, eventHandlers);
+        bindHandlers(editor, eventHandlers as EventHandlers);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);
         }
