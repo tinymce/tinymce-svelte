@@ -173,7 +173,7 @@
             }
           });
         });
-        bindHandlers(editor, eventHandlers as EventHandlers);
+        bindHandlers(editor, eventHandlers);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);
         }
