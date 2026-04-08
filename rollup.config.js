@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import execute from "rollup-plugin-execute";
 import pkg from './package.json';
@@ -37,12 +37,12 @@ export default {
 	// input: 'src/main.ts',
   input: 'src/main/index.ts',
   output: [
-    { file: pkg.module, format: 'es', sourcemap: true },
+    { file: pkg.module, format: 'es', sourcemap: !production },
     { 
       file: pkg.main,
       format: 'umd',
       name,
-      sourcemap: true,
+      sourcemap: !production,
       plugins: [
         execute([
           'tsc --outDir ./dist --declaration',
@@ -50,7 +50,12 @@ export default {
         ])
       ]
     },
-    { file: pkg.main.replace('.js','.min.js'), format: 'iife', name, plugins: [terser()] }
+    {
+      file: pkg.main.replace('.js','.min.js'),
+      format: 'iife',
+      name,
+      plugins: [terser()]
+    }
   ],
 	// output: {
 	// 	sourcemap: true,
@@ -89,8 +94,10 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		// production && terser()
+		// production && terser(),
 	],
+  // Mark node:async_hoooks as external because it is a server-side feature in the Node.js runtime
+  external: ['node:async_hooks'],
 	watch: {
 		clearScreen: false
 	}

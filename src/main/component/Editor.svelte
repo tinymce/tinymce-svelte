@@ -4,7 +4,7 @@
   @see {@link https://www.tiny.cloud/docs/tinymce/7/svelte-ref/} for the TinyMCE Svelte Technical Reference.
 -->
 
-<script lang="ts" context="module">
+<script lang="ts" module>
   declare let global: { tinymce: TinyMCE }
   declare let window: Window & { tinymce: TinyMCE }
 
@@ -62,32 +62,56 @@
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
+  import { bindHandlers } from './Utils';
+  import type { EventHandlers } from './Utils';
+
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
-  import { bindHandlers } from './Utils';
-  export let id: string = uuid('tinymce-svelte'); // default values
-  export let inline: boolean | undefined = undefined;
-  export let disabled: boolean = false;
-  export let readonly: boolean = false;
-  export let apiKey: string = 'no-api-key';
-  export let licenseKey: string | undefined = undefined;
-  export let channel: Channel = '8';
-  export let scriptSrc: string | undefined = undefined;
-  export let conf: EditorOptions = {};
-  export let modelEvents: string = 'change input undo redo';
-  export let value: string = '';
-  export let text: string = '';
-  export let cssClass: string = 'tinymce-wrapper';
-  
-  let container: HTMLElement;
-  let element: HTMLElement;
-  let editorRef: TinyMCEEditor | null;
-  let lastVal = value;
-  let disablindCache = disabled;
-  let readonlyCache = readonly;
+  export interface EditorProps extends EventHandlers{
+    id?: string; // default values
+    inline?: boolean | undefined;
+    disabled?: boolean;
+    readonly?: boolean;
+    apiKey?: string;
+    licenseKey?: string | undefined;
+    channel?: Channel;
+    scriptSrc?: string | undefined;
+    conf?: EditorOptions;
+    modelEvents?: string;
+    value?: string;
+    text?: string;
+    cssClass?: string;
+  }
+
+  let {
+    id = uuid('tinymce-svelte'),
+    inline = undefined,
+    disabled = false,
+    readonly = false,
+    apiKey = 'no-api-key',
+    licenseKey = undefined,
+    channel = '8',
+    scriptSrc = undefined,
+    conf = {},
+    modelEvents = 'change input undo redo',
+    value = $bindable(''),
+    text = $bindable(''),
+    cssClass = 'tinymce-wrapper',
+    ...eventHandlers
+  }: EditorProps = $props();
+  let container: HTMLElement | undefined;
+  // svelte-ignore non_reactive_update
+  let element: HTMLElement | undefined;
+  let editorRef: TinyMCEEditor | undefined = $state();
+  // The following three variables are not meant to be reactive, but we need to track them to avoid unnecessary editor updates.
+  let lastVal = $state.snapshot(value);
+  // svelte-ignore state_referenced_locally
+  let disablindCache = $state.snapshot(disabled)
+  // svelte-ignore state_referenced_locally
+  let readonlyCache = $state.snapshot(readonly);
   
   const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
     if (typeof editor.mode?.set === 'function') {
@@ -103,9 +127,7 @@
       }
   }
 
-  const dispatch = createEventDispatcher();
-
-  $: {
+  $effect(() => {
     if (editorRef && lastVal !== value) {
       editorRef.setContent(value);
       text = editorRef.getContent({format: 'text'});
@@ -118,7 +140,7 @@
       disablindCache = disabled;
       setDisabled(editorRef, disabled);
     }
-  }
+  });
   
   const getTinymce = (): TinyMCE | null => {
     const getSink = (): { tinymce: TinyMCE } => {
@@ -129,7 +151,6 @@
   };
   
   const init = () => {
-    //
     const finalInit: EditorOptions = {
       ...conf,
       target: element,
@@ -152,13 +173,13 @@
             }
           });
         });
-        bindHandlers(editor, dispatch);
+        bindHandlers(editor, eventHandlers);
         if (typeof conf.setup === 'function') {
           conf.setup(editor);
         }
       },
     };
-    element.style.visibility = '';
+    element!.style.visibility = '';
     void getTinymce()?.init(finalInit);
   };
   
@@ -167,7 +188,7 @@
       init();
     } else {
       const script = scriptSrc ? scriptSrc : `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${channel}/tinymce.min.js`;
-      scriptLoader.load(container.ownerDocument, script, () => {
+      scriptLoader.load(container!.ownerDocument, script, () => {
         init();
       });
     }
@@ -178,8 +199,8 @@
       getTinymce()?.remove(editorRef);
     }
   });
-  
 </script>
+
 <div bind:this={container} class={cssClass}>
 {#if inline}
   <div id={id} bind:this={element}></div>

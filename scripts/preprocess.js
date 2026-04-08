@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const glob = require("glob");
 const path = require("path");
 const svelte = require("svelte/compiler");
-const sveltePreprocess = require("svelte-preprocess");
+const { sveltePreprocess } = require("svelte-preprocess");
 
 const basePath = path.resolve(__dirname, "../");
 const srcPath = path.resolve(basePath, "src/main");
