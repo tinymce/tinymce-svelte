@@ -1,13 +1,8 @@
-<script context="module">
-  export const meta = {
-    title: 'Editor',
-    component: Editor
-  }
-</script>
-
-<script>
-  import { Story } from '@storybook/addon-svelte-csf';
+<script lang="ts" module>
   import Editor from '../main/component/Editor.svelte';
+  import type { EditorProps } from '../main/component/Editor.svelte';
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import { validEvents } from '../main/component/Utils';
 
   const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
@@ -18,10 +13,10 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
 <strong><span style="font-size: 14pt;"><span style="color: #7e8c8d; font-weight: 600;">No matter what you're building, TinyMCE has got you covered.</span></span></strong>
 </p>`.trim();
 
-  let value = content;
-  let disabled = true;
-  let readonly = true;
-  let text = '';
+  let value = $state(content);
+  let disabled = $state(true);
+  let readonly = $state(true);
+  let text = $state('');
 
   const toggleDisabled = () => {
     disabled = !disabled;
@@ -30,53 +25,89 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
     readonly = !readonly;
   }
   const controls = { channel: '8' }
+  const { Story } = defineMeta({
+    title: 'Editor',
+    component: Editor,
+    args: {
+      ...controls,
+      apiKey,
+      inline: false
+    } as EditorProps
+  });
+  const eventHandlers = validEvents.reduce((acc, eventName) => {
+    acc[eventName.toLowerCase()] = () => {
+      console.log('Handle event: ' + eventName.toLowerCase());
+    };
+    return acc;
+  }, {})
 </script>
 
-<Story name="Iframe" args={{ ...controls, inline: false }} let:args>
-  <Editor {apiKey} {value} {...args}/>
+<Story name="Iframe">
+  {#snippet template(args)}
+    <Editor {...args} {value} />
+  {/snippet}
 </Story>
 
-<Story name="Inline" args={{ ...controls, inline: true }} let:args>
-  <div style="padding-top:100px;">
-    <Editor {apiKey} {value} {...args} />
-  </div>
+<Story name="Inline" args={{ inline: true }}>
+    {#snippet template(args)}
+      <div style="padding-top:100px; height:400px; border:1px solid #ccciq">
+        <Editor {...args} {value} />
+      </div>
+    {/snippet}
 </Story>
 
-<Story name="Value binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value {...args}/>
+<Story name="Value binding">
+  {#snippet template(args)}
     <div>
-      {@html value}
+      <Editor bind:value={value} {...args}/>
+      <div>
+         {@html value}
+      </div>
     </div>
-  </div>
+  {/snippet}
 </Story>
 
-<Story name="Input binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value {...args}/>
-    <textarea style="width:100%;height:200px" bind:value></textarea>
-  </div>
+<Story name="Input binding">
+  {#snippet template(args)}
+    <div>
+      <Editor bind:value {...args}/>
+      <textarea style="width:100%;height:200px" bind:value></textarea>
+    </div>
+  {/snippet}
 </Story>
 
-<Story name="Text binding" args={controls} let:args>
-  <div>
-    <Editor {apiKey} bind:value bind:text {...args}/>
-    <div>{text}</div>
-    <div>{@html value}</div>
-    <textarea style="width:100%;height:200px" bind:value={text}></textarea>
-  </div>
+<Story name="Text binding" >
+  {#snippet template(args)}
+    <div>
+      <Editor {apiKey} bind:value bind:text {...args}/>
+      <div>{text}</div>
+      <div>{@html value}</div>
+      <textarea style="width:100%;height:200px" bind:value={text}></textarea>
+    </div>
+  {/snippet}
 </Story>
 
-<Story name="Disabling" args={controls} let:args>
-  <div>
-    <button on:click={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
-    <Editor {apiKey} {disabled} {value} {...args}/>
-  </div>
+<Story name="Disabling" args={{disabled}}>
+    {#snippet template(args)}
+    <div>
+        <button onclick={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
+        <Editor {...args} {disabled} {value}/>
+      </div>
+  {/snippet}
 </Story>
 
-<Story name="Readonly" args={controls} let:args>
-  <div>
-    <button on:click={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
-    <Editor {apiKey} {readonly} {value} {...args}/>
-  </div>
+<Story name="Readonly">
+  {#snippet template(args)}
+    <div>
+      <button onclick={toggleReadonly}>{#if readonly}Not Readonly{:else}Readonly{/if}</button>
+      <Editor {readonly} {value} {...args}/>
+    </div>
+  {/snippet}
+</Story>
+
+
+<Story name="Event Bindings">
+  {#snippet template(args)}
+    <Editor {readonly} {value} {...args} {...eventHandlers}/>
+  {/snippet}
 </Story>
