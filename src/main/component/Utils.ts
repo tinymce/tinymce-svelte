@@ -75,7 +75,7 @@ export type EventHandlers = {
   [K in ValidEventTypes]: (event: any, editor: TinyMCE) => void;
 }
 
-export const bindHandlers = (editor: Editor, eventHandlers: EventHandlers) => {
+export const bindHandlers = (editor: Editor, eventHandlers: Partial<EventHandlers>) => {
   validEvents.forEach( (eventName) => {
     editor.on(eventName, (e) => {
       eventHandlers[eventName.toLowerCase()]?.(e, editor);
