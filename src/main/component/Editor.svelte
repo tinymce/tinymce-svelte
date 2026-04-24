@@ -70,7 +70,7 @@
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
 
-  export interface EditorProps extends EventHandlers{
+  export interface EditorProps extends Partial<EventHandlers> {
     id?: string; // default values
     inline?: boolean | undefined;
     disabled?: boolean;
