@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- TypeScript errors caused by all event handler props being incorrectly marked as required. #INT-3424
+
 ## 4.0.0 - 2026-04-13
 
 ### Added
