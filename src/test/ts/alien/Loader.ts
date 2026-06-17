@@ -5,8 +5,11 @@ import { mount, unmount } from 'svelte';
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import type { Version } from './TestHelpers';
 
+// The !! prefix disables all other configured loaders/rules so only our loader runs.
+// rspack/webpack resolves the loader path from the project's node_modules.
+// TypeScript doesn't understand the inline loader syntax so we cast via any.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const Editor = require('../../compiled/Editor.js').default;
+const Editor = (require('!!../../../../scripts/svelte-loader.js!../../../main/component/Editor.svelte') as any).default;
 
 // // @ts-expect-error Polyfill for `using` syntax in environments that don't have it yet
 // Symbol.dispose ??= Symbol('Symbol.dispose');
