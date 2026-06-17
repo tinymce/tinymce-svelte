@@ -1,5 +1,4 @@
 node_modules
-src/test/compiled
 lib
 .DS_Store
 storybook-static
