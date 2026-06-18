@@ -1,20 +1,17 @@
 import { after, before, context } from '@ephox/bedrock-client';
 import { Remove, SugarElement } from '@ephox/sugar';
 import { VersionLoader } from '@tinymce/miniature';
-import { mount, unmount } from 'svelte';
+import { flushSync, mount, unmount } from 'svelte';
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import type { Version } from './TestHelpers';
 
-// The !! prefix disables all other configured loaders/rules so only our loader runs.
-// rspack/webpack resolves the loader path from the project's node_modules.
-// TypeScript doesn't understand the inline loader syntax so we cast via any.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Editor = (require('!!../../../../scripts/svelte-loader.js!../../../main/component/Editor.svelte') as any).default;
+// proxy() is the runtime equivalent of $state({}) for objects — mutations trigger reactive updates
+// in the mounted component exactly as $state would inside a .svelte file.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { proxy } = require('svelte/internal/client') as { proxy: <T extends object>(val: T) => T };
 
-// // @ts-expect-error Polyfill for `using` syntax in environments that don't have it yet
-// Symbol.dispose ??= Symbol('Symbol.dispose');
-// // @ts-expect-error
-// Symbol.asyncDispose ??= Symbol('Symbol.asyncDispose');
 
 export interface EditorProps {
   id?: string;
@@ -35,6 +32,9 @@ export interface EditorProps {
 export interface SvelteEditorContext extends Disposable {
   editor: TinyMCEEditor;
   DOMNode: HTMLElement;
+  componentInstance: Record<string, any>;
+  /** Update any props on the live component instance and flush Svelte reactivity synchronously. */
+  setProps(patch: Partial<EditorProps>): void;
   remove(): void;
 }
 
@@ -42,40 +42,45 @@ export type RenderFn = (props?: EditorProps) => Promise<SvelteEditorContext>;
 
 
 export const render = async (props: EditorProps = {}): Promise<SvelteEditorContext> => {
-  // Create a fresh container per render so that remove() can delete the whole element,
-  // leaving the DOM clean for bedrock's post-test DOM validation.
   const container = document.createElement('div');
   document.body.appendChild(container);
 
-  let componentInstance: Record<string, unknown>;
+  const userConf = (props.conf as Record<string, unknown>) ?? {};
+  const userSetup = typeof userConf.setup === 'function' ? userConf.setup as (editor: TinyMCEEditor) => void : undefined;
+
+  // Reactive proxy — mutations via setProps() propagate into the mounted component.
+  const reactiveProps = proxy({
+    ...props,
+    licenseKey: props.licenseKey ?? 'gpl',
+  }) as Record<string, unknown>;
+
+  let componentInstance!: Record<string, any>;
 
   const { editor, DOMNode } = await new Promise<{ editor: TinyMCEEditor; DOMNode: HTMLElement }>((resolve, reject) => {
-    const userConf = (props.conf as Record<string, unknown>) ?? {};
-    const userSetup = typeof userConf.setup === 'function' ? userConf.setup as (editor: TinyMCEEditor) => void : undefined;
-
-    const finalProps: EditorProps = {
-      ...props,
-      licenseKey: props.licenseKey ?? 'gpl',
-      conf: {
-        ...userConf,
-        setup: (editor: TinyMCEEditor) => {
-          if (userSetup) userSetup(editor);
-          editor.on('SkinLoaded', () => {
-            setTimeout(() => {
-              const DOMNode = editor.targetElm as HTMLElement;
-              if (DOMNode) {
-                resolve({ editor, DOMNode });
-              } else {
-                reject(new Error('Could not find DOMNode after SkinLoaded'));
-              }
-            }, 0);
-          });
-        }
+    reactiveProps.conf = {
+      ...userConf,
+      setup: (editor: TinyMCEEditor) => {
+        if (userSetup) userSetup(editor);
+        editor.on('SkinLoaded', () => {
+          setTimeout(() => {
+            const DOMNode = editor.targetElm as HTMLElement;
+            if (DOMNode) {
+              resolve({ editor, DOMNode });
+            } else {
+              reject(new Error('Could not find DOMNode after SkinLoaded'));
+            }
+          }, 0);
+        });
       }
     };
 
-    componentInstance = mount(Editor, { target: container, props: finalProps }) as Record<string, unknown>;
+    componentInstance = mount(Editor, { target: container, props: reactiveProps });
   });
+
+  const setProps = (patch: Partial<EditorProps>) => {
+    Object.assign(reactiveProps, patch);
+    flushSync();
+  };
 
   const remove = () => {
     unmount(componentInstance);
@@ -85,6 +90,8 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
   return {
     editor,
     DOMNode,
+    componentInstance,
+    setProps,
     remove,
     [Symbol.dispose]: remove
   };

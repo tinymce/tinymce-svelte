@@ -96,6 +96,7 @@
     "tinymce-5": "npm:tinymce@^5",
     "tinymce-6": "npm:tinymce@^6",
     "tinymce-7": "npm:tinymce@^7",
+    "tinymce-7.5": "npm:tinymce@7.5",
     "tinymce-8": "npm:tinymce@^8.0.0",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
@@ -105,5 +106,6 @@
     "browserslist": "^4.16.5",
     "glob-parent": "^5.1.2",
     "trim": "^0.0.3"
-  }
+  },
+  "dependencies": {}
 }

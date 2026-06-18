@@ -8242,6 +8242,11 @@ tinyglobby@^0.2.15:
   resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-6.8.6.tgz#799e4f03eeb4399399dfdeb12ba17b3b91887adf"
   integrity sha512-++XYEs8lKWvZxDCjrr8Baiw7KiikraZ5JkLMg6EdnUVNKJui0IsrAADj5MsyUeFkcEryfn2jd3p09H7REvewyg==
 
+"tinymce-7.5@npm:tinymce@7.5":
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-7.5.1.tgz#4c207ab930d3a073bf851ddd3a8aa44d8d94d7bd"
+  integrity sha512-GRXJUB0BEIOUHUEC+q9IjsgWGIAQ4Tn5t5hfpB/YR7No3oPgKHG03v1d3nbov9aqdyVW7Be+UD4I3ZerQG30VQ==
+
 "tinymce-7@npm:tinymce@^7":
   version "7.9.3"
   resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-7.9.3.tgz#74f0a04bdf662f90910512d3fe792f0d5f1111e3"
