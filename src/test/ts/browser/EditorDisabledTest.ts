@@ -1,12 +1,8 @@
 import { context, describe, it } from "@ephox/bedrock-client";
-import { Arr } from "@ephox/katamari";
 import * as Loader from "../alien/Loader";
 import { Assertions, Waiter } from "@ephox/agar";
-import { proxy } from 'svelte/internal/client';
-import type { Editor } from "tinymce";
 
 describe('EditorDisabledTest', () => {
-
   context('with TinyMCE < 7.6', () => {
     Loader.withVersion('7.5', (render) => {
       it('updating disabled prop should toggle the editor\'s mode', async () => {
