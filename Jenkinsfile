@@ -1,11 +1,13 @@
 #!groovy
 @Library('waluigi@release/7') _
 
-beehiveFlowBuild(
-  container: [
-    resourceRequestMemory: '4Gi',
-    resourceLimitCpu: '4',
-    resourceLimitMemory: '4Gi'
+mixedBeehiveFlow(
+  container: [ resourceRequestMemory: '3Gi', resourceLimitMemory: '3Gi' ],
+  testPrefix: 'Tiny-React',
+  platforms: [
+    [ browser: 'chrome', headless: true ],
+    [ browser: 'firefox', provider: 'aws', buckets: 1 ],
+    [ browser: 'safari', provider: 'lambdatest', buckets: 1 ]
   ],
   customSteps: {
     stage("update storybook") {
@@ -18,5 +20,9 @@ beehiveFlowBuild(
         echo "Skipping as is not latest release"
       }
     }
+  },
+  preparePublish: {
+    yarnInstall()
+    sh "yarn build"
   }
 )
