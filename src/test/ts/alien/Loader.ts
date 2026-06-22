@@ -5,6 +5,11 @@ import { flushSync, mount, unmount } from 'svelte';
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import type { Version } from './TestHelpers';
 
+// @ts-expect-error Remove when dispose polyfill is not needed
+Symbol.dispose ??= Symbol('Symbol.dispose');
+// @ts-expect-error Remove when dispose polyfill is not needed
+Symbol.asyncDispose ??= Symbol('Symbol.asyncDispose');
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Editor = (require('!!../../../../scripts/svelte-loader.js!../../../main/component/Editor.svelte') as any).default;
 // proxy() is the runtime equivalent of $state({}) for objects — mutations trigger reactive updates
