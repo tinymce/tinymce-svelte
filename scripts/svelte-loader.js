@@ -7,7 +7,7 @@ module.exports = function svelteLoader(source) {
   const result = compile(source, {
     filename: this.resourcePath,
     generate: 'client',
-    dev: false
+    dev: true
   });
 
   result.warnings.forEach((w) => this.emitWarning(new Error(w.message)));
