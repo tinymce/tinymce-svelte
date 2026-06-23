@@ -5,7 +5,7 @@ import { Assertions, Waiter } from "@ephox/agar";
 describe('EditorDisabledTest', () => {
   context('with TinyMCE < 7.6', () => {
     Loader.withVersion('7.5', (render) => {
-      it('updating disabled prop should toggle the editor\'s mode', async () => {
+      it('TINYINT-3437: Updating disabled prop should toggle the editor\'s mode', async () => {
         using ctx = await render({
           disabled: true
         });
@@ -17,7 +17,7 @@ describe('EditorDisabledTest', () => {
         });
       });
 
-      it('updating readonly prop should toggle the editor\'s mode', async () => {
+      it('TINYINT-3437: Updating readonly prop should toggle the editor\'s mode', async () => {
         using ctx = await render({
           readonly: true
         });
@@ -33,7 +33,7 @@ describe('EditorDisabledTest', () => {
 
   context('with TinyMCE >= 7.6', () => {
     Loader.withVersion('7', (render) => {
-      it('updating disabled prop should only change the editor\'s state', async () => {
+      it('TINYINT-3437: Updating disabled prop should only change the editor\'s state', async () => {
         using ctx = await render({
           disabled: true
         });
@@ -47,7 +47,7 @@ describe('EditorDisabledTest', () => {
         });
       });
 
-      it('updating readonly prop should only change the editor\'s mode', async () => {
+      it('TINYINT-3437: Updating readonly prop should only change the editor\'s mode', async () => {
         using ctx = await render({
           readonly: true
         });

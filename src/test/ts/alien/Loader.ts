@@ -10,12 +10,10 @@ Symbol.dispose ??= Symbol('Symbol.dispose');
 // @ts-expect-error Remove when dispose polyfill is not needed
 Symbol.asyncDispose ??= Symbol('Symbol.asyncDispose');
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Editor = (require('!!../../../../scripts/svelte-loader.js!../../../main/component/Editor.svelte') as any).default;
+const Editor: any = (require('!!../../../../scripts/svelte-loader.js!../../../main/component/Editor.svelte')).default;
 // proxy() is the runtime equivalent of $state({}) for objects — mutations trigger reactive updates
 // in the mounted component exactly as $state would inside a .svelte file.
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { proxy } = require('svelte/internal/client') as { proxy: <T extends object>(val: T) => T };
+const { proxy }: { proxy: <T extends object>(val: T) => T } = require('svelte/internal/client');
 
 
 export interface EditorProps {

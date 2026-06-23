@@ -15,24 +15,24 @@ describe('EditorInitTest', () => {
       const defaultProps: Loader.EditorProps = { apiKey: VALID_API_KEY };
 
       context('inline prop controls element tag', () => {
-        it('uses textarea by default (iframe mode)', async () => {
+        it('TINYINT-3437: Uses textarea by default (iframe mode)', async () => {
           using ctx = await render(defaultProps);
           assertProperty(ctx.DOMNode, 'tagName', 'TEXTAREA');
         });
 
-        it('uses div for inline mode', async () => {
+        it('TINYINT-3437: Uses div for inline mode', async () => {
           using ctx = await render({ ...defaultProps, inline: true });
           assertProperty(ctx.DOMNode, 'tagName', 'DIV');
         });
       });
 
       context('id prop', () => {
-        it('is set when provided', async () => {
+        it('TINYINT-3437: Is set when provided', async () => {
           using ctx = await render({ ...defaultProps, id: 'test-editor' });
           assertProperty(ctx.DOMNode, 'id', 'test-editor');
         });
 
-        it('is auto-generated as uuid when not provided', async () => {
+        it('TINYINT-3437: Is auto-generated as uuid when not provided', async () => {
           using ctx = await render(defaultProps);
           Assertions.assertEq(
             'id should be a uuid starting with tinymce-svelte',
@@ -42,12 +42,12 @@ describe('EditorInitTest', () => {
         });
       });
 
-      it('value prop sets initial content', async () => {
+      it('TINYINT-3437: Value prop sets initial content', async () => {
         using ctx = await render({ ...defaultProps, value: '<p>Hello World</p>' });
         TinyAssertions.assertContent(ctx.editor, '<p>Hello World</p>');
       });
 
-      it('empty value prop results in empty editor', async () => {
+      it('TINYINT-3437: Empty value prop results in empty editor', async () => {
         using ctx = await render({ ...defaultProps, value: '' });
         TinyAssertions.assertContent(ctx.editor, '');
       });

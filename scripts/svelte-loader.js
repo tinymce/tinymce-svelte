@@ -1,6 +1,4 @@
 // Minimal Svelte loader for webpack/rspack.
-// Used via inline loader syntax in test files:
-//   import Editor from '!!<path>/svelte-loader.js!./Editor.svelte';
 const { compile } = require('svelte/compiler');
 
 module.exports = function svelteLoader(source) {
