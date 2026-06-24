@@ -3,6 +3,7 @@ import { Remove, SugarElement } from '@ephox/sugar';
 import { VersionLoader } from '@tinymce/miniature';
 import { flushSync, mount, unmount } from 'svelte';
 import type { Editor as TinyMCEEditor } from 'tinymce';
+import { type EventHandlers } from '../../../main/component/Utils';
 import type { Version } from './TestHelpers';
 
 // @ts-expect-error Remove when dispose polyfill is not needed
@@ -15,8 +16,8 @@ const Editor: any = (require('!!../../../../scripts/svelte-loader.js!../../../ma
 // in the mounted component exactly as $state would inside a .svelte file.
 const { proxy }: { proxy: <T extends object>(val: T) => T } = require('svelte/internal/client');
 
-
-export interface EditorProps {
+export interface EditorProps extends Partial<EventHandlers> {
+  [key: string]: unknown;
   id?: string;
   inline?: boolean;
   disabled?: boolean;
@@ -29,7 +30,6 @@ export interface EditorProps {
   modelEvents?: string;
   value?: string;
   cssClass?: string;
-  [key: string]: unknown;
 }
 
 export interface SvelteEditorContext extends Disposable {
@@ -42,7 +42,6 @@ export interface SvelteEditorContext extends Disposable {
 }
 
 export type RenderFn = (props?: EditorProps) => Promise<SvelteEditorContext>;
-
 
 export const render = async (props: EditorProps = {}): Promise<SvelteEditorContext> => {
   const container = document.createElement('div');
@@ -62,13 +61,15 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
   const { editor, DOMNode } = await new Promise<{ editor: TinyMCEEditor; DOMNode: HTMLElement }>((resolve, reject) => {
     reactiveProps.conf = {
       ...userConf,
-      setup: (editor: TinyMCEEditor) => {
-        if (userSetup) userSetup(editor);
-        editor.on('SkinLoaded', () => {
+      setup: (ed: TinyMCEEditor) => {
+        if (userSetup) {
+          userSetup(ed);
+        }
+        ed.on('SkinLoaded', () => {
           setTimeout(() => {
-            const DOMNode = editor.targetElm as HTMLElement;
-            if (DOMNode) {
-              resolve({ editor, DOMNode });
+            const dNode = ed.targetElm as HTMLElement;
+            if (dNode) {
+              resolve({ editor: ed, DOMNode: dNode });
             } else {
               reject(new Error('Could not find DOMNode after SkinLoaded'));
             }
@@ -76,7 +77,7 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
         });
       }
     };
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     componentInstance = mount(Editor, { target: container, props: reactiveProps });
   });
 
@@ -86,7 +87,10 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
   };
 
   const remove = () => {
-    unmount(componentInstance);
+    unmount(componentInstance).catch((reason) => {
+      // eslint-disable-next-line no-console
+      console.error(reason);
+    });
     Remove.remove(SugarElement.fromDom(container));
   };
 
