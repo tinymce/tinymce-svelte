@@ -51,6 +51,16 @@ describe('EditorInitTest', () => {
         using ctx = await render({ ...defaultProps, value: '' });
         TinyAssertions.assertContent(ctx.editor, '');
       });
+
+      it('TINYINT-3435: cssClass is set to the container if provided', async () => {
+        using ctx = await render({ ...defaultProps, cssClass: 'test-class' });
+        Assertions.assertEq('className of containershould contain test-class', true, ctx.DOMNode.parentElement?.className === 'test-class');
+      });
+
+      it('TINYINT-3435: conf is passed as options to the editor', async () => {
+        using ctx = await render({ ...defaultProps, conf: { branding: false }});
+        Assertions.assertEq('branding option should be false', false, ctx.editor.options.get('branding'));
+      });
     })
   );
 });
