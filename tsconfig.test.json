@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "strict": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "declaration": false,
+    "sourceMap": true
+  },
+  "include": [
+    "src/test/ts/**/*.ts",
+    "src/main/component/Utils.ts",
+    "src/main/index.ts"
+  ]
+}

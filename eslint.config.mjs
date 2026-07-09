@@ -1,52 +1,72 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 
-// eslint.config.js
 import tinymceEslintPlugin from "@tinymce/eslint-plugin";
-import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
 import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import svelteParser from 'svelte-eslint-parser';
+import { defineConfig } from "eslint/config";
 
-export default [{
-  files: ['**/*.svelte'],
-  languageOptions: {
-    ecmaVersion: 2022,
-    sourceType: 'module',
-    parser: svelteParser,
-    globals: {
-      ...globals.browser,
-      ...globals.node
+export default defineConfig([
+  ...tinymceEslintPlugin.configs.standard,
+  {
+    files: ['**/*.svelte'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      parser: svelteParser,
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      parserOptions: {
+        parser: tsparser,
+        extraFileExtensions: ['.svelte'],
+        projectService: true
+      }
     },
-    parserOptions: {
-      parser: tsparser,
-      extraFileExtensions: ['.svelte']
+    plugins: {
+      svelte,
+      '@tinymce': tinymceEslintPlugin
+    },
+    rules: {
+      ...svelte.configs.recommended.rules,
+      eqeqeq: 'error'
     }
   },
-  plugins: {
-    svelte,
-    '@typescript-eslint': tseslint
-  },
-  rules: {
-    ...svelte.configs.recommended.rules,
-    eqeqeq: 'error'
-  }
-}, {
-  files: ['**/*.ts'],
-  languageOptions: {
-    parser: tsparser,
-    parserOptions: {
-      project: './tsconfig.json'
+  {
+    files: ['src/main/**/*.ts'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        project: './tsconfig.json'
+      },
     },
+    plugins: {
+      '@tinymce': tinymceEslintPlugin
+    },
+    rules: {
+      '@tinymce/prefer-fun': 'off',
+      '@typescript-eslint/no-duplicate-imports': 'off',
+    }
   },
-  plugins: {
-    '@typescript-eslint': tseslint,
-    "@tinymce": tinymceEslintPlugin
+  {
+    files: ['src/test/**/*.ts'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        project: './tsconfig.test.json'
+      },
+    },
+    plugins: {
+      '@tinymce': tinymceEslintPlugin
+    },
+    rules: {
+      '@tinymce/prefer-fun': 'off',
+      '@typescript-eslint/no-duplicate-imports': 'off',
+      "@typescript-eslint/no-require-imports": "off"
+    }
   },
-  rules: {
-    '@tinymce/prefer-fun': 'off',
-    '@typescript-eslint/no-duplicate-imports': 'off',
-    '@typescript-eslint/no-parameter-properties': 'off'
-  }
-}, ...storybook.configs["flat/recommended"]];
+  ...storybook.configs["flat/recommended"]
+]);

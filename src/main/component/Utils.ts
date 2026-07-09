@@ -1,4 +1,4 @@
-import type { Editor, TinyMCE } from "tinymce";
+import type { Editor, TinyMCE } from 'tinymce';
 
 export const validEvents = [
   'Activate',
@@ -73,17 +73,17 @@ export const validEvents = [
 export type ValidEventTypes = Lowercase<typeof validEvents[number]>;
 export type EventHandlers = {
   [K in ValidEventTypes]: (event: any, editor: TinyMCE) => void;
-}
+};
 
-export const bindHandlers = (editor: Editor, eventHandlers: Partial<EventHandlers>) => {
+export const bindHandlers = (editor: Editor, eventHandlers: Partial<EventHandlers>): void => {
   validEvents.forEach( (eventName) => {
     editor.on(eventName, (e) => {
       eventHandlers[eventName.toLowerCase()]?.(e, editor);
     });
-})};
+  });
+};
 
-
-export const injectTiny = (doc, url, cb) => {
+export const injectTiny = (doc: any, url: string, cb: any): void => {
   const script = doc.createElement('script');
   script.referrerPolicy = 'origin';
   script.type = 'application/javascript';

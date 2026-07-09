@@ -1,17 +1,17 @@
 <script lang="ts" module>
-  import Editor from '../main/component/Editor.svelte';
-  import type { EditorProps } from '../main/component/Editor.svelte';
   import { defineMeta } from '@storybook/addon-svelte-csf';
+
+  import Editor, { type EditorProps } from '../main/component/Editor.svelte';
   import { validEvents } from '../main/component/Utils';
 
   const apiKey = 'prsghhxax677rv082a1zj9b7cgjuoaqysf7h8ayxi5ao43ha';
   const content = `
-<h2 style="text-align: center;">
-TinyMCE provides a <span style="text-decoration: underline;">full-featured</span> rich text editing experience, and a featherweight download.
-</h2>
-<p style="text-align: center;">
-<strong><span style="font-size: 14pt;"><span style="color: #7e8c8d; font-weight: 600;">No matter what you're building, TinyMCE has got you covered.</span></span></strong>
-</p>`.trim();
+          <h2 style="text-align: center;">
+          TinyMCE provides a <span style="text-decoration: underline;">full-featured</span>rich text editing experience, and a featherweight download.
+          </h2><p style="text-align: center;"><strong>`
+          + `<span style="font-size: 14pt;"><span style="color: #7e8c8d; font-weight: 600;">No matter what you're building, TinyMCE has got you covered.</span>`
+          + `</span></strong>
+          </p>`.trim();
 
   let value = $state(content);
   let disabled = $state(true);
@@ -20,11 +20,11 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
 
   const toggleDisabled = () => {
     disabled = !disabled;
-  }
+  };
   const toggleReadonly = () => {
     readonly = !readonly;
-  }
-  const controls = { channel: '8' }
+  };
+  const controls = { channel: '8' };
   const { Story } = defineMeta({
     title: 'Editor',
     component: Editor,
@@ -36,10 +36,11 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   });
   const eventHandlers = validEvents.reduce((acc, eventName) => {
     acc[eventName.toLowerCase()] = () => {
+      // eslint-disable-next-line no-console
       console.log('Handle event: ' + eventName.toLowerCase());
     };
     return acc;
-  }, {})
+  }, {});
 </script>
 
 <Story name="Iframe">
@@ -87,7 +88,7 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
   {/snippet}
 </Story>
 
-<Story name="Disabling" args={{disabled}}>
+<Story name="Disabling" args={{ disabled }}>
     {#snippet template(args)}
     <div>
         <button onclick={toggleDisabled}>{#if disabled}Enable{:else}Disable{/if}</button>
@@ -104,7 +105,6 @@ TinyMCE provides a <span style="text-decoration: underline;">full-featured</span
     </div>
   {/snippet}
 </Story>
-
 
 <Story name="Event Bindings">
   {#snippet template(args)}

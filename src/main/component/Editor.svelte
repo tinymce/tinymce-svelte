@@ -5,23 +5,19 @@
 -->
 
 <script lang="ts" module>
-  declare let global: { tinymce: TinyMCE }
-  declare let window: Window & { tinymce: TinyMCE }
+  declare let global: { tinymce: TinyMCE };
+  declare let window: Window & { tinymce: TinyMCE };
 
-  const uuid = (prefix: string): string => {
-    return prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
-  };
+  const uuid = (prefix: string): string => prefix + '_' + Math.floor(Math.random() * 1000000000) + String(Date.now());
 
-  const isDisabledOptionSupported = (editor: TinyMCEEditor): boolean => {
-    return typeof editor.options.set === 'function' && editor.options.isRegistered('disabled')
-  };
+  const isDisabledOptionSupported = (editor: TinyMCEEditor): boolean => typeof editor.options.set === 'function' && editor.options.isRegistered('disabled');
 
   const createScriptLoader = () => {
     let state: {
-      listeners: Array<() => void>,
-      scriptId: string,
-      scriptLoaded: boolean,
-      injected: boolean
+      listeners: Array<() => void>;
+      scriptId: string;
+      scriptLoaded: boolean;
+      injected: boolean;
     } = {
       listeners: [],
       scriptId: uuid('tiny-script'),
@@ -35,8 +31,12 @@
       script.referrerPolicy = 'origin';
       script.type = 'application/javascript';
       script.src = url;
-      script.onload = () => { cb();}
-      if (doc.head) doc.head.appendChild(script);
+      script.onload = () => {
+        cb();
+      };
+      if (doc.head) {
+        doc.head.appendChild(script);
+      }
     };
 
     const load = (doc: Document, url: string, callback: () => void) => {
@@ -56,7 +56,7 @@
 
     return {
       load
-    }
+    };
   };
   let scriptLoader = createScriptLoader();
 </script>
@@ -64,8 +64,8 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
   import type { TinyMCE, Editor as TinyMCEEditor } from 'tinymce';
-  import { bindHandlers } from './Utils';
-  import type { EventHandlers } from './Utils';
+
+  import { bindHandlers, type EventHandlers } from './Utils';
 
   type EditorOptions = Parameters<TinyMCE['init']>[0];
   type Channel = `${'4' | '5' | '6' | '7' | '8'}${'' | '-dev' | '-testing' | `.${number}` | `.${number}.${number}`}`;
@@ -109,28 +109,28 @@
   // The following three variables are not meant to be reactive, but we need to track them to avoid unnecessary editor updates.
   let lastVal = $state.snapshot(value);
   // svelte-ignore state_referenced_locally
-  let disablindCache = $state.snapshot(disabled)
+  let disablindCache = $state.snapshot(disabled);
   // svelte-ignore state_referenced_locally
   let readonlyCache = $state.snapshot(readonly);
-  
+
   const setReadonly = (editor: TinyMCEEditor, readonlyValue: boolean) => {
     if (typeof editor.mode?.set === 'function') {
       editor.mode.set(readonlyValue ? 'readonly' : 'design');
     }
-  }
+  };
 
   const setDisabled = (editor: TinyMCEEditor, disabledValue: boolean) => {
     if (isDisabledOptionSupported(editor)) {
-        editor.options.set('disabled', disabledValue);
-      } else {
-        editor.mode.set(disabledValue ? 'readonly' : 'design');
-      }
-  }
+      editor.options.set('disabled', disabledValue);
+    } else {
+      editor.mode.set(disabledValue ? 'readonly' : 'design');
+    }
+  };
 
   $effect(() => {
     if (editorRef && lastVal !== value) {
       editorRef.setContent(value);
-      text = editorRef.getContent({format: 'text'});
+      text = editorRef.getContent({ format: 'text' });
     }
     if (editorRef && readonly !== readonlyCache) {
       readonlyCache = readonly;
@@ -141,19 +141,18 @@
       setDisabled(editorRef, disabled);
     }
   });
-  
+
   const getTinymce = (): TinyMCE | null => {
-    const getSink = (): { tinymce: TinyMCE } => {
-      return typeof window !== 'undefined' ? window : global;
-    };
+    const getSink = (): { tinymce: TinyMCE } => typeof window !== 'undefined' ? window : global;
     const sink = getSink();
     return sink && sink.tinymce ? sink.tinymce : null;
   };
-  
+
   const init = () => {
     const finalInit: EditorOptions = {
       ...conf,
       target: element,
+      // eslint-disable-next-line no-nested-ternary
       inline: inline !== undefined ? inline : conf.inline !== undefined ? conf.inline : false,
       license_key: licenseKey,
       setup: (editor: TinyMCEEditor) => {
@@ -169,7 +168,7 @@
             lastVal = editor.getContent();
             if (lastVal !== value) {
               value = lastVal;
-              text = editor.getContent({format: 'text'});
+              text = editor.getContent({ format: 'text' });
             }
           });
         });
@@ -179,15 +178,18 @@
         }
       },
     };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     element!.style.visibility = '';
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     void getTinymce()?.init(finalInit);
   };
-  
+
   onMount(() => {
     if (getTinymce() !== null) {
       init();
     } else {
       const script = scriptSrc ? scriptSrc : `https://cdn.tiny.cloud/1/${apiKey}/tinymce/${channel}/tinymce.min.js`;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       scriptLoader.load(container!.ownerDocument, script, () => {
         init();
       });
