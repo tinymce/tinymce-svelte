@@ -82,14 +82,3 @@ export const bindHandlers = (editor: Editor, eventHandlers: Partial<EventHandler
     });
   });
 };
-
-export const injectTiny = (doc: any, url: string, cb: any): void => {
-  const script = doc.createElement('script');
-  script.referrerPolicy = 'origin';
-  script.type = 'application/javascript';
-  script.src = url;
-  script.onload = cb;
-  if (doc.head) {
-    doc.head.appendChild(script);
-  }
-};

@@ -38,6 +38,7 @@ export interface SvelteEditorContext extends Disposable {
   componentInstance: Record<string, any>;
   /** Update any props on the live component instance and flush Svelte reactivity synchronously. */
   setProps(patch: Partial<EditorProps>): void;
+  getProps(name: keyof EditorProps): unknown;
   remove(): void;
 }
 
@@ -86,6 +87,8 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
     flushSync();
   };
 
+  const getProps = (name: string): any => reactiveProps[name];
+
   const remove = () => {
     unmount(componentInstance).catch((reason) => {
       // eslint-disable-next-line no-console
@@ -99,6 +102,7 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
     DOMNode,
     componentInstance,
     setProps,
+    getProps,
     remove,
     [Symbol.dispose]: remove
   };
