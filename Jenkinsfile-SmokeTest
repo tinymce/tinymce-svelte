@@ -110,6 +110,18 @@ timestamps {
       String nextVersion = sh(script: "npm view svelte@${npmTag} version", returnStdout: true).trim()
       echo "The upcoming Svelte version: ${nextVersion}"
 
+      String previousVersion = ''
+      copyArtifacts(projectName: env.JOB_NAME, selector: lastSuccessful(), optional: true, filter: 'svelte-version.txt')
+      if (fileExists('svelte-version.txt')) {
+        previousVersion = readFile('svelte-version.txt').trim()
+      }
+
+      if (previousVersion == nextVersion) {
+        echo "Svelte version ${nextVersion} is unchanged since the last successful build - skipping smoke tests"
+        currentBuild.description = "Svelte ${nextVersion} (unchanged)"
+        return
+      }
+
       try {
         runSmokeTests(npmTag: npmTag)
       } catch (Exception e) {
@@ -125,6 +137,10 @@ timestamps {
             color: color.get(currentBuild.result, '#808080'),
             message: "${env.JOB_NAME} against ${nextVersion} failed: ${message} (<${env.BUILD_URL}|Open>)"
           )
+        } else {
+          currentBuild.description = "Svelte ${nextVersion}"
+          writeFile file: 'svelte-version.txt', text: nextVersion
+          archiveArtifacts artifacts: 'svelte-version.txt'
         }
       }
     }
