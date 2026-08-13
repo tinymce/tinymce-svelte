@@ -97,27 +97,29 @@ def notify(Map slackArgs) {
 
 timestamps {
   tinyPods.node() {
-    String npmTag = params.NPM_TAG ?: 'next'
-    String nextVersion = sh(script: "npm view svelte@${npmTag} version", returnStdout: true).trim()
-    echo "The upcoming Svelte version: ${nextVersion}"
+    String npmTag = params.NPM_TAG ?: 'latest'
+    String latestVersion = sh(script: "npm view svelte@${npmTag} version", returnStdout: true).trim()
+    echo "The latest Svelte version: ${latestVersion}}"
 
-    String currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+    stage('precheck') {
+      String currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+      String previousVersion = ''
+      String previousCommit = ''
 
-    String previousVersion = ''
-    String previousCommit = ''
-    copyArtifacts(projectName: env.JOB_NAME, selector: lastCompleted(), optional: true, filter: 'svelte-version.txt,repo-commit.txt')
-    if (fileExists('svelte-version.txt')) {
-      previousVersion = readFile('svelte-version.txt').trim()
-    }
-    if (fileExists('repo-commit.txt')) {
-      previousCommit = readFile('repo-commit.txt').trim()
-    }
+      copyArtifacts(projectName: env.JOB_NAME, selector: lastCompleted(), optional: true, filter: 'svelte-version.txt,repo-commit.txt')
+      if (fileExists('svelte-version.txt')) {
+        previousVersion = readFile('svelte-version.txt').trim()
+      }
+      if (fileExists('repo-commit.txt')) {
+        previousCommit = readFile('repo-commit.txt').trim()
+      }
 
-    if (previousVersion == nextVersion && previousCommit == currentCommit) {
-      echo "Svelte version (${nextVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests"
-      currentBuild.description = "Svelte ${nextVersion} (unchanged)"
-      currentBuild.result = 'ABORTED'
-      return
+      if (previousVersion == latestVersion && previousCommit == currentCommit) {
+        echo "Svelte version (${latestVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests"
+        currentBuild.description = "Neither Svelte or tinymce-svelte has changed since the last build"
+        currentBuild.result = 'ABORTED'
+        return
+      }
     }
 
     stage('deps') {
