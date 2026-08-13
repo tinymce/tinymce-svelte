@@ -17,14 +17,14 @@ properties([
 // Updates the Svelte dependency to the version specified by the npm tag
 def updateDependenciesWithTag(Map args = new LinkedHashMap()) {
   String npmTag = args.npmTag ?: 'latest'
-  sh "yarn add svelte@${npmTag}"
+  sh 'yarn add svelte@${npmTag}'
 }
 
 def runSmokeTests(Map args = new LinkedHashMap()) {
   def platforms = args.platforms ?: [
-    [ browser: "chrome", provider: "lambdatest" ]
+    [ browser: 'chrome', provider: 'lambdatest' ]
   ]
-  String additionalArgs = "--chunk 20 --totalTimeout 1800000 --singleTimeout 90000 --retries 3"
+  String additionalArgs = '--chunk 20 --totalTimeout 1800000 --singleTimeout 90000 --retries 3'
 
   def processes = [:]
 
@@ -35,28 +35,28 @@ def runSmokeTests(Map args = new LinkedHashMap()) {
     for (int bucket = 1; bucket <= buckets; bucket++) {
       // clousure var - don't inline or jenkins complains
       def currBucket = bucket
-      def suffix = currBucket == 1 ? '' : "-${currBucket}"
+      def suffix = currBucket == 1 ? '' : '-${currBucket}'
 
       // Run using remote provider
       if (platform.provider) {
-        def name = "${platform.browser}-${platform.provider}${suffix}"
+        def name = '${platform.browser}-${platform.provider}${suffix}'
         processes[name] = {
-          stage("${name}") {
+          stage('${name}') {
             bedrockRemoteTools.tinyWorkSishTunnel()
             bedrockRemoteTools.withRemoteCreds(platform.provider) {
-              String customArgs = additionalArgs + " --remote ${platform.provider}"
-              if (platform.provider == "aws") {
-                customArgs = customArgs + " --sishDomain \"sish.osu.tiny.work\""
+              String customArgs = additionalArgs + ' --remote ${platform.provider}'
+              if (platform.provider == 'aws') {
+                customArgs = customArgs + ' --sishDomain \"sish.osu.tiny.work\"'
               }
               if (platform.os) {
-                customArgs = customArgs + " --platformName \"${platform.os}\""
+                customArgs = customArgs + ' --platformName \"${platform.os}\"'
               }
 
               updateDependenciesWithTag(npmTag: args.npmTag)
               bedrockTests(
                 name: name,
                 browser: platform.browser,
-                testDirs: [ "src/test/ts" ],
+                testDirs: [ 'src/test/ts' ],
                 bucket: currBucket,
                 buckets: buckets,
                 custom: customArgs
@@ -66,17 +66,17 @@ def runSmokeTests(Map args = new LinkedHashMap()) {
         }
       } else {
         // Headless code in case is needed
-        def name = "headless-${platform.browser}${suffix}"
+        def name = 'headless-${platform.browser}${suffix}'
         processes[name] = {
-          stage("${name}") {
+          stage('${name}') {
             updateDependenciesWithTag(npmTag: args.npmTag)
             bedrockTests(
               name: name,
               browser: platform.browser,
-              testDirs: [ "src/test/ts" ],
+              testDirs: [ 'src/test/ts' ],
               bucket: currBucket,
               buckets: buckets,
-              custom: additionalArgs + " --useSelenium"
+              custom: additionalArgs + ' --useSelenium'
             )
           }
         }
@@ -98,8 +98,8 @@ def notify(Map slackArgs) {
 timestamps {
   tinyPods.node() {
     String npmTag = params.NPM_TAG ?: 'latest'
-    String latestVersion = sh(script: "npm view svelte@${npmTag} version", returnStdout: true).trim()
-    echo "The latest Svelte version: ${latestVersion}}"
+    String latestVersion = sh(script: 'npm view svelte@${npmTag} version', returnStdout: true).trim()
+    echo 'The latest Svelte version: ${latestVersion}'
 
     stage('precheck') {
       String currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
@@ -115,8 +115,8 @@ timestamps {
       }
 
       if (previousVersion == latestVersion && previousCommit == currentCommit) {
-        echo "Svelte version (${latestVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests"
-        currentBuild.description = "Neither Svelte or tinymce-svelte has changed since the last build"
+        echo 'Svelte version (${latestVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests'
+        currentBuild.description = 'Neither Svelte or tinymce-svelte has changed since the last build'
         currentBuild.result = 'ABORTED'
         return
       }
@@ -134,22 +134,22 @@ timestamps {
       try {
         runSmokeTests(npmTag: npmTag)
       } catch (Exception e) {
-        echo "Exception was caught: ${e}"
+        echo 'Exception was caught: ${e}'
         currentBuild.result = 'FAILURE'
       } finally {
-        currentBuild.description = "Svelte ${nextVersion}"
-        writeFile file: 'svelte-version.txt', text: nextVersion
+        currentBuild.description = 'Svelte ${latestVersion}'
+        writeFile file: 'svelte-version.txt', text: latestVersion
         writeFile file: 'repo-commit.txt', text: currentCommit
         archiveArtifacts artifacts: 'svelte-version.txt,repo-commit.txt'
 
         if (currentBuild.resultIsWorseOrEqualTo('UNSTABLE')) {
           def color = ['UNSTABLE': 'warning', 'FAILURE': 'danger']
-          def message = currentBuild.result == 'UNSTABLE' ? "Tests failed" : 'An unexpected error occurred while running tests'
+          def message = currentBuild.result == 'UNSTABLE' ? 'Tests failed' : 'An unexpected error occurred while running tests'
 
           notify(
             channel: '#tiny-integrations-dev',
             color: color.get(currentBuild.result, '#808080'),
-            message: "${env.JOB_NAME} against ${nextVersion} failed: ${message} (<${env.BUILD_URL}|Open>)"
+            message: '${env.JOB_NAME} against Svelte ${latestVersion} failed: ${message} (<${env.BUILD_URL}|Open>)'
           )
         }
       }
