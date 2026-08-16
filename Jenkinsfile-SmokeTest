@@ -10,7 +10,7 @@ properties([
     numToKeepStr: '50'
   )),
   parameters([
-    string(defaultValue: 'next', description: 'The NPM publish tag ', name: 'NPM_TAG', trim: false),
+    string(defaultValue: 'latest', description: 'The NPM publish tag ', name: 'NPM_TAG', trim: false),
   ])
 ])
 
