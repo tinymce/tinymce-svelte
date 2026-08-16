@@ -119,7 +119,6 @@ timestamps {
 
       if (previousVersion == latestVersion && previousCommit == currentCommit) {
         echo "Svelte version (${latestVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests"
-        currentBuild.description = 'Svelte and tinymce-svelte have not changed since the last build. Skipped.'
         currentBuild.result = 'ABORTED'
         skip = true
       }
@@ -141,7 +140,6 @@ timestamps {
           echo "Exception was caught: ${e}"
           currentBuild.result = 'FAILURE'
         } finally {
-          currentBuild.description = "Svelte ${latestVersion} and tinymce-svelte commit ${currentCommit}"
           writeFile file: 'svelte-version.txt', text: latestVersion
           writeFile file: 'repo-commit.txt', text: currentCommit
           archiveArtifacts artifacts: 'svelte-version.txt,repo-commit.txt'
