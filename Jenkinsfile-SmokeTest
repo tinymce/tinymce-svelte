@@ -14,6 +14,11 @@ properties([
   ])
 ])
 
+// Generates a custom route file so the browser tests can look up the targeted Svelte version
+def generateNPMVersionRouteFile(Map args = new LinkedHashMap()) {
+  writeJSON file: "${args.filePath}", json: args.content
+}
+
 // Updates the Svelte dependency to the version specified by the npm tag
 def updateDependenciesWithTag(Map args = new LinkedHashMap()) {
   String npmTag = args.npmTag ?: 'latest'
@@ -24,7 +29,8 @@ def runSmokeTests(Map args = new LinkedHashMap()) {
   def platforms = args.platforms ?: [
     [ browser: 'chrome', provider: 'lambdatest' ]
   ]
-  String additionalArgs = '--chunk 20 --totalTimeout 1800000 --singleTimeout 90000 --retries 3'
+  String routeFilePath = "${WORKSPACE}/customRoutes.json"
+  String additionalArgs = "--chunk 20 --totalTimeout 1800000 --singleTimeout 90000 --retries 3 --customRoutes ${routeFilePath}"
 
   def processes = [:]
 
@@ -52,6 +58,7 @@ def runSmokeTests(Map args = new LinkedHashMap()) {
                 customArgs = customArgs + " --platformName \"${platform.os}\""
               }
 
+              generateNPMVersionRouteFile(filePath: routeFilePath, content: args.routeContent)
               updateDependenciesWithTag(npmTag: args.npmTag)
               bedrockTests(
                 name: name,
@@ -69,6 +76,7 @@ def runSmokeTests(Map args = new LinkedHashMap()) {
         def name = "headless-${platform.browser}${suffix}"
         processes[name] = {
           stage("${name}") {
+            generateNPMVersionRouteFile(filePath: routeFilePath, content: args.routeContent)
             updateDependenciesWithTag(npmTag: args.npmTag)
             bedrockTests(
               name: name,
@@ -134,8 +142,23 @@ timestamps {
       }
 
       stage('tests') {
+        def customRouteContent = readJSON text: """
+          [{
+            "request": {
+              "method": "get",
+              "path": "/custom/integration/info"
+            },
+            "response": {
+              "status": 200,
+              "json": {
+                "version": "${latestVersion}"
+              }
+            }
+          }]
+        """
+
         try {
-          runSmokeTests(npmTag: npmTag)
+          runSmokeTests(npmTag: npmTag, routeContent: customRouteContent)
         } catch (Exception e) {
           echo "Exception was caught: ${e}"
           currentBuild.result = 'FAILURE'
