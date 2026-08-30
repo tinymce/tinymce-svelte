@@ -4,6 +4,7 @@
 mixedBeehiveFlow(
   container: [ resourceRequestMemory: '3Gi', resourceLimitMemory: '3Gi' ],
   testPrefix: 'Tiny-Svelte',
+  testDirs: [ 'src/test/ts/browser' ],
   platforms: [
     [ browser: 'chrome', provider: 'lambdatest', os: 'macOS Sonoma', buckets: 1 ],
     [ browser: 'firefox', provider: 'aws', buckets: 1 ],

@@ -1,0 +1,184 @@
+#!groovy
+@Library('waluigi@release/7') _
+
+properties([
+  disableConcurrentBuilds(),
+  buildDiscarder(logRotator(
+    artifactDaysToKeepStr: '',
+    artifactNumToKeepStr: '1',
+    daysToKeepStr: '',
+    numToKeepStr: '50'
+  )),
+  parameters([
+    string(defaultValue: 'latest', description: 'The NPM publish tag ', name: 'NPM_TAG', trim: false),
+  ])
+])
+
+// Generates a custom route file so the browser tests can look up the targeted Svelte version
+def generateNPMVersionRouteFile(Map args = new LinkedHashMap()) {
+  writeJSON file: "${args.filePath}", json: args.content
+}
+
+// Updates the Svelte dependency to the version specified by the npm tag
+def updateDependenciesWithTag(Map args = new LinkedHashMap()) {
+  String npmTag = args.npmTag ?: 'latest'
+  sh "yarn add svelte@${npmTag}"
+}
+
+def runSmokeTests(Map args = new LinkedHashMap()) {
+  def platforms = args.platforms ?: [
+    [ browser: 'chrome', provider: 'lambdatest' ]
+  ]
+  String routeFilePath = "${WORKSPACE}/customRoutes.json"
+  String additionalArgs = "--chunk 20 --totalTimeout 1800000 --singleTimeout 90000 --retries 3 --customRoutes ${routeFilePath}"
+
+  def processes = [:]
+
+  for (int i = 0; i < platforms.size(); i++) {
+    def platform = platforms.get(i)
+    def buckets = platform.buckets ?: 1
+
+    for (int bucket = 1; bucket <= buckets; bucket++) {
+      // clousure var - don't inline or jenkins complains
+      def currBucket = bucket
+      def suffix = currBucket == 1 ? '' : "-${currBucket}"
+
+      // Run using remote provider
+      if (platform.provider) {
+        def name = "${platform.browser}-${platform.provider}${suffix}"
+        processes[name] = {
+          stage("${name}") {
+            bedrockRemoteTools.tinyWorkSishTunnel()
+            bedrockRemoteTools.withRemoteCreds(platform.provider) {
+              String customArgs = additionalArgs + " --remote ${platform.provider}"
+              if (platform.provider == 'aws') {
+                customArgs = customArgs + " --sishDomain \"sish.osu.tiny.work\""
+              }
+              if (platform.os) {
+                customArgs = customArgs + " --platformName \"${platform.os}\""
+              }
+
+              generateNPMVersionRouteFile(filePath: routeFilePath, content: args.routeContent)
+              updateDependenciesWithTag(npmTag: args.npmTag)
+              bedrockTests(
+                name: name,
+                browser: platform.browser,
+                testDirs: [ 'src/test/ts' ],
+                bucket: currBucket,
+                buckets: buckets,
+                custom: customArgs
+              )
+            }
+          }
+        }
+      } else {
+        // Headless code in case is needed
+        def name = "headless-${platform.browser}${suffix}"
+        processes[name] = {
+          stage("${name}") {
+            generateNPMVersionRouteFile(filePath: routeFilePath, content: args.routeContent)
+            updateDependenciesWithTag(npmTag: args.npmTag)
+            bedrockTests(
+              name: name,
+              browser: platform.browser,
+              testDirs: [ 'src/test/ts' ],
+              bucket: currBucket,
+              buckets: buckets,
+              custom: additionalArgs + ' --useSelenium'
+            )
+          }
+        }
+      }
+    }
+  }
+
+  parallel processes
+}
+
+def notify(Map slackArgs) {
+  // In shared libraries, the `call` method is not in the pipeline CPS context. We need to call the `steps` object to safely call jenkins steps
+  steps.retry(3) {
+    return steps.slackSend([ username: 'TinyMCE Integration Smoke Test', failOnError: true ] + slackArgs)
+  }
+}
+
+
+timestamps {
+  tinyPods.node() {
+    String npmTag = params.NPM_TAG ?: 'latest'
+    String latestVersion = sh(script: "npm view svelte@${npmTag} version", returnStdout: true).trim()
+    String currentCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+
+    echo "The latest Svelte version: ${latestVersion}"
+
+    boolean skip = false
+
+    stage('precheck') {
+      String previousVersion = ''
+      String previousCommit = ''
+
+      copyArtifacts(projectName: env.JOB_NAME, selector: lastCompleted(), optional: true, filter: 'svelte-version.txt,repo-commit.txt')
+      if (fileExists('svelte-version.txt')) {
+        previousVersion = readFile('svelte-version.txt').trim()
+      }
+      if (fileExists('repo-commit.txt')) {
+        previousCommit = readFile('repo-commit.txt').trim()
+      }
+
+      if (previousVersion == latestVersion && previousCommit == currentCommit) {
+        echo "Svelte version (${latestVersion}) and tinymce-svelte commit (${currentCommit}) are unchanged since the last build - skipping smoke tests"
+        currentBuild.result = 'ABORTED'
+        skip = true
+      }
+    }
+
+    if (!skip) {
+      stage('deps') {
+        yarnInstall()
+      }
+
+      stage('build') {
+        sh 'yarn build'
+      }
+
+      stage('tests') {
+        def customRouteContent = readJSON text: """
+          [{
+            "request": {
+              "method": "get",
+              "path": "/custom/integration/info"
+            },
+            "response": {
+              "status": 200,
+              "json": {
+                "version": "${latestVersion}"
+              }
+            }
+          }]
+        """
+
+        try {
+          runSmokeTests(npmTag: npmTag, routeContent: customRouteContent)
+        } catch (Exception e) {
+          echo "Exception was caught: ${e}"
+          currentBuild.result = 'FAILURE'
+        } finally {
+          writeFile file: 'svelte-version.txt', text: latestVersion
+          writeFile file: 'repo-commit.txt', text: currentCommit
+          archiveArtifacts artifacts: 'svelte-version.txt,repo-commit.txt'
+
+          if (currentBuild.resultIsWorseOrEqualTo('UNSTABLE')) {
+            def color = ['UNSTABLE': 'warning', 'FAILURE': 'danger']
+            def message = currentBuild.result == 'UNSTABLE' ? 'Tests failed' : 'An unexpected error occurred while running tests'
+
+            notify(
+              channel: '#tiny-integrations-dev',
+              color: color.get(currentBuild.result, '#808080'),
+              message: "${env.JOB_NAME} against Svelte ${latestVersion} failed: ${message} (<${env.BUILD_URL}|Open>)"
+            )
+          }
+        }
+      }
+    }
+  }
+}

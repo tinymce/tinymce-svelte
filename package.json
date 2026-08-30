@@ -25,7 +25,7 @@
     "dev": "rollup -c -w",
     "validate": "svelte-check",
     "lint": "eslint 'src/**/*.{ts,svelte}'",
-    "test": "bedrock-auto --bundler rspack -b chrome-headless -f src/test/ts/**/*Test.ts -c tsconfig.test.json",
+    "test": "bedrock-auto --bundler rspack -b chrome-headless -f src/test/ts/browser/*Test.ts -c tsconfig.test.json",
     "test-manual": "bedrock --bundler rspack -f src/test/ts/**/*Test.ts -c tsconfig.test.json",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

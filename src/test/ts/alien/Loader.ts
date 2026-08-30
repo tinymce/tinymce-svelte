@@ -1,10 +1,11 @@
 import { after, before, context } from '@ephox/bedrock-client';
-import { Remove, SugarElement } from '@ephox/sugar';
+import { Attribute, Remove, SugarElement } from '@ephox/sugar';
 import { VersionLoader } from '@tinymce/miniature';
 import { flushSync, mount, unmount } from 'svelte';
 import type { Editor as TinyMCEEditor } from 'tinymce';
 import { type EventHandlers } from '../../../main/component/Utils';
 import type { Version } from './TestHelpers';
+import { VERSION } from 'svelte/compiler';
 
 // @ts-expect-error Remove when dispose polyfill is not needed
 Symbol.dispose ??= Symbol('Symbol.dispose');
@@ -70,6 +71,10 @@ export const render = async (props: EditorProps = {}): Promise<SvelteEditorConte
           setTimeout(() => {
             const dNode = ed.targetElm as HTMLElement;
             if (dNode) {
+              // Bake the Svelte version as a data attribute on the Editor.svelte wrapper so it can be verified in tests
+              if (dNode.parentElement) {
+                Attribute.set(SugarElement.fromDom(dNode.parentElement), 'data-framework-version', VERSION);
+              }
               resolve({ editor: ed, DOMNode: dNode });
             } else {
               reject(new Error('Could not find DOMNode after SkinLoaded'));
