@@ -1,7 +1,7 @@
 {
   "name": "@tinymce/tinymce-svelte",
   "version": "4.0.2-rc",
-  "description": "TinyMCE Svelte Component",
+  "description": "Official Svelte Component for TinyMCE, a rich text editor.",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -35,9 +35,14 @@
   "keywords": [
     "tinymce",
     "svelte",
-    "component"
+    "component",
+    "editor",
+    "wysiwyg",
+    "html",
+    "contenteditable",
+    "rich-text-editor"
   ],
-  "author": "Tiny",
+  "author": "Ephox Corporation DBA Tiny Technologies, Inc.",
   "license": "MIT",
   "files": [
     "src",
