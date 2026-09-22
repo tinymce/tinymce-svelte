@@ -1,7 +1,7 @@
 {
   "name": "@tinymce/tinymce-svelte",
   "version": "4.0.2-rc",
-  "description": "Official Svelte Component for TinyMCE, a rich text editor.",
+  "description": "Official Svelte Component for TinyMCE rich text editor.",
   "private": false,
   "publishConfig": {
     "access": "public"

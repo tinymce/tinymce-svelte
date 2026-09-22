@@ -23,7 +23,7 @@ In your Svelte project:
   let value = $state('<p>Initial content</p>');
 </script>
 
-<h1>TinyMCE Svelte demo</h1>
+<h1>Official Svelte Component for TinyMCE</h1>
 <Editor
   apiKey="your-api-key"
   bind:value
@@ -49,7 +49,7 @@ For our quick demos, check out the TinyMCE Svelte [Storybook](https://tinymce.gi
 * [TinyMCE Svelte Technical Reference](https://www.tiny.cloud/docs/tinymce/latest/svelte-ref/).
 * [TinyMCE Documentation](https://www.tiny.cloud/docs/tinymce/latest/).
 
-## Supported Versions
+## Version Compatibility
 
 |`tinymce-svelte`         |Svelte         |
 |---                      |---            |
@@ -61,9 +61,10 @@ For our quick demos, check out the TinyMCE Svelte [Storybook](https://tinymce.gi
 
 ## Issues
 
-Have you found an issue with tinymce-svelte or do you have a feature request? Open up an [issue](https://github.com/tinymce/tinymce-svelte/issues) and let us know or submit a [pull request](https://github.com/tinymce/tinymce-svelte/pulls). *Note: For issues concerning TinyMCE please visit the [TinyMCE repository](https://github.com/tinymce/tinymce).*
+Have you found an issue with `tinymce-svelte` or do you have a feature request? Open up an [issue](https://github.com/tinymce/tinymce-svelte/issues) and let us know or submit a [pull request](https://github.com/tinymce/tinymce-svelte/pulls). *Note: For issues concerning TinyMCE please visit the [TinyMCE repository](https://github.com/tinymce/tinymce).*
 
 ## License
+
 `tinymce-svelte` is licensed under the MIT License. See the LICENSE.txt file for details.
 
 Depending on use case, the TinyMCE core editor can be used under either GPL-2.0-or-later or a commercial license. See the [tinymce package](https://www.npmjs.com/package/tinymce) for details.
