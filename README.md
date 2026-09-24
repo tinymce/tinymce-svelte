@@ -2,11 +2,9 @@
 
 ## About
 
- Official React component for [TinyMCE](https://www.npmjs.com/package/tinymce). It makes integrating TinyMCE into React applications easy and seamless.
+Official Svelte component for TinyMCE, the rich text editor. It wraps TinyMCE as a Svelte `<Editor />` component. By default, it pulls TinyMCE from the Tiny Cloud CDN unless configured to use a different setup, such as self-hosting the [tinymce NPM package](https://www.npmjs.com/package/tinymce).
 
 ## Quickstart
-
-`tinymce-svelte` component is a thin wrapper around TinyMCE. It automatically pulls TinyMCE from the Tiny Cloud CDN unless configured to use a different setup, such as self-hosting the [tinymce NPM package](https://www.npmjs.com/package/tinymce)
 
 ### Cloud CDN
 
