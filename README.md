@@ -8,28 +8,26 @@ Official Svelte component for TinyMCE, the rich text editor. It wraps TinyMCE as
 
 ### Cloud CDN
 
-In your Svelte project:
-
 1. [Sign up for a Tiny Cloud account](https://www.tiny.cloud/pricing/) to receive a Tiny Cloud API key.
-2. `npm install @tinymce/tinymce-svelte`
-3. Include the following code:
+1. Then in your Svelte project:
+    1. Run `npm install @tinymce/tinymce-svelte`
+    1. Include the following code:
 
-```svelte
-<script>
-  import Editor from '@tinymce/tinymce-svelte';
+        ```svelte
+        <script>
+          import Editor from '@tinymce/tinymce-svelte';
 
-  let value = $state('<p>Initial content</p>');
-</script>
+          let value = $state('<p>Initial content</p>');
+        </script>
 
-<h1>Official Svelte Component for TinyMCE</h1>
-<Editor
-  apiKey="your-api-key"
-  bind:value
-  conf={{ plugins: 'lists link image table code help wordcount' }}
-/>
-```
-
-4. Update the `apiKey` prop on the `Editor` component to include your Tiny Cloud API key.
+        <h1>Official Svelte Component for TinyMCE</h1>
+        <Editor
+          apiKey="your-api-key"
+          bind:value
+          conf={{ plugins: 'lists link image table code help wordcount' }}
+        />
+        ```
+    1. Update the `apiKey` prop on the `Editor` component to include your Tiny Cloud API key.
 
 For more information: [Using TinyMCE with Svelte - Cloud CDN](https://www.tiny.cloud/docs/tinymce/latest/svelte-cloud/)
 
